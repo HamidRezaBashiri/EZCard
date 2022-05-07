@@ -1,3 +1,7 @@
 package com.hamidrezabashiri.ezcard.data.dataModel
 
-data class User()
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "user_table")
+data class User(@PrimaryKey val id: Int)
