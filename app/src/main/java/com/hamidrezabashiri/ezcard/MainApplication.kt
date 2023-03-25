@@ -1,4 +1,4 @@
-package com.hamidrezabashiri.ezcard.utils
+package com.hamidrezabashiri.ezcard
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

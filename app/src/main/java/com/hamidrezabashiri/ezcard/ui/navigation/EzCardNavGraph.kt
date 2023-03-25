@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.hamidrezabashiri.ezcard.ui.screens.login.LoginScreen
+import com.hamidrezabashiri.ezcard.ui.screens.login.LoginViewModel
 import com.hamidrezabashiri.ezcard.ui.screens.signup.SignUpScreen
 import com.hamidrezabashiri.ezcard.ui.screens.signup.SignUpViewModel
 
@@ -26,6 +28,7 @@ fun EzCardNavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = MainDestinations.SIGNUP_ROUTE
 ) {
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -36,7 +39,11 @@ fun EzCardNavGraph(
             SignUpScreen(signUpViewModel)
         }
         composable(route = MainDestinations.LOGIN_ROUTE) {
-
+            val loginViewModel: LoginViewModel = hiltViewModel()
+            LoginScreen(
+                viewModel = loginViewModel,
+                onLoginSuccess = { navController.navigate(MainDestinations.HOME_ROUTE) }
+            )
         }
         composable(route = MainDestinations.SETTINGS_ROUTE) {
 

@@ -9,9 +9,12 @@ import com.hamidrezabashiri.ezcard.data.repository.card.CardRepository
 import kotlinx.coroutines.launch
 
 class AddCardViewModel(private val repository: CardRepository) : ViewModel() {
-    val allCreditCard:LiveData<List<CreditCard>> = repository.creditCardList.asLiveData()
+
+    fun getAllCards() = viewModelScope.launch {  repository.getAllCards()}
+
+//    val allCreditCard:LiveData<List<CreditCard>> = repository.getAllCards().asLiveData()
 
     fun addCard(creditCard: CreditCard) = viewModelScope.launch{
-        repository.insertCreditCard(creditCard)
+        repository.insertCard(creditCard)
     }
 }

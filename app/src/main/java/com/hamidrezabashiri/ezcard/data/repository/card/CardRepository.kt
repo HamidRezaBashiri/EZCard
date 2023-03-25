@@ -5,13 +5,9 @@ import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.CardDao
 import kotlinx.coroutines.flow.Flow
 
-class CardRepository(private val cardDao: CardDao) {
+interface CardRepository {
+   suspend fun insertCard(creditCard: CreditCard)
 
-    val creditCardList: Flow<List<CreditCard>> = cardDao.getAllCards()
+   suspend fun getAllCards() :Flow<List<CreditCard>>
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insertCreditCard(creditCard: CreditCard){
-        cardDao.addCard(creditCard)
-    }
 }

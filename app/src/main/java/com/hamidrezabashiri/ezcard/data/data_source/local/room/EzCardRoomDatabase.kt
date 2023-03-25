@@ -10,7 +10,8 @@ import com.hamidrezabashiri.ezcard.data.dataModel.User
 @Database(entities = [CreditCard::class, User::class], version = 1, exportSchema = false)
 abstract class EzCardRoomDatabase : RoomDatabase() {
 
-    abstract fun CardDao(): CardDao
+    abstract fun cardDao(): CardDao
+    abstract fun userDao(): UserDao
 
     companion object {
 
@@ -24,7 +25,7 @@ abstract class EzCardRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     EzCardRoomDatabase::class.java,
-                    "EzCardDatebase"
+                    "EzCardDatabase"
                 ).build()
                 INSTANCE = instance
 //                return instance

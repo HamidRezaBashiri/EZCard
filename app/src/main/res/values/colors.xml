@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Turquoise200Transparent40">#AA7BC5C1</color>
+    <color name="Turquoise200">#FF7BC5C1</color>
+    <color name="Turquoise700">#FF0C676A</color>
+    <color name="Orange200">#FFFFE9C0</color>
+    <color name="Orange500">#FFF9A000</color>
+    <color name="Orange700">#FFCD8607</color>
+    <color name="Green200">#FF63D42E</color>
+    <color name="BlueGreen">#FFBDEAE7</color>
+
 </resources>
