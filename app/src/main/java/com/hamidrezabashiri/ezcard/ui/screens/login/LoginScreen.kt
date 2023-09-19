@@ -14,13 +14,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.ui.theme.MyButtonShape
 
 
 @Preview
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit = {}, viewModel: LoginViewModel = LoginViewModel()) {
+fun LoginScreen(onLoginSuccess: () -> Unit = {}, viewModel: LoginViewModel = hiltViewModel()) {
     var password by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
