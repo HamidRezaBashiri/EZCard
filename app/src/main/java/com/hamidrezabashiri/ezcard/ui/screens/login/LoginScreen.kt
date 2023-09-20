@@ -1,28 +1,39 @@
 package com.hamidrezabashiri.ezcard.ui.screens.login
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.ui.theme.MyButtonShape
+import kotlinx.coroutines.flow.Flow
 
 
-@Preview
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit = {}, viewModel: LoginViewModel = hiltViewModel()) {
-    var password by remember { mutableStateOf("") }
+fun LoginScreen(
+    onLoginSuccess: () -> Unit = {},
+    viewModel: LoginViewModel = hiltViewModel(),
+) {
 
+
+
+    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -44,12 +55,12 @@ fun LoginScreen(onLoginSuccess: () -> Unit = {}, viewModel: LoginViewModel = hil
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp , horizontal = 36.dp)
+                .padding(vertical = 16.dp, horizontal = 36.dp)
         )
 
         Button(
             shape = MyButtonShape,
-            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             onClick = {
                 if (password == "myPassword") {
                     onLoginSuccess()

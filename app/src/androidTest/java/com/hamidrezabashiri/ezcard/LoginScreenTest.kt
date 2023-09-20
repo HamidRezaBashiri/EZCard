@@ -20,7 +20,11 @@ class LoginScreenTest {
     fun testLoginSuccess() {
         // Launch the login screen
         composeTestRule.setContent {
-            LoginScreen(onLoginSuccess = {}, viewModel = loginViewModel)
+            LoginScreen(onLoginSuccess = {}, viewModel = loginViewModel) {
+                navController.navigate(
+                    com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations.WELCOME_ROUTE
+                )
+            }
         }
 
 //        // Enter a valid password in the password field
@@ -43,7 +47,11 @@ class LoginScreenTest {
     fun testLoginFailure() {
         // Launch the login screen
         composeTestRule.setContent {
-            LoginScreen(onLoginSuccess = {}, viewModel = loginViewModel)
+            LoginScreen(onLoginSuccess = {}, viewModel = loginViewModel) {
+                navController.navigate(
+                    com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations.WELCOME_ROUTE
+                )
+            }
         }
 
 //        // Enter an invalid password in the password field

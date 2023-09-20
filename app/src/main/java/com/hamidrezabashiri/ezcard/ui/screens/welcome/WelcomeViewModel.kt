@@ -1,4 +1,4 @@
-package com.hamidrezabashiri.ezcard.ui.screens.signup
+package com.hamidrezabashiri.ezcard.ui.screens.welcome
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -11,18 +11,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val dataStore: DataStore<Preferences>) :
+class WelcomeViewModel @Inject constructor() :
     ViewModel() {
 
-    private val isFirstLoginKey = booleanPreferencesKey("is_first_login")
 
 
-    fun onSignUpButtonClicked() {
-        viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[isFirstLoginKey] = false
-            }
-        }
-    }
 
 }

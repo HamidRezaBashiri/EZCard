@@ -1,33 +1,146 @@
 package com.hamidrezabashiri.ezcard.ui.screens.welcome
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
+import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 
-@Preview
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> Unit) {
+    val isDarkTheme = isSystemInDarkTheme()
+
+    val backgroundVector =
+        if (isDarkTheme) R.drawable.background_dark_guy else R.drawable.background_guy
 
     Box(Modifier.fillMaxSize()) {
+        Image(
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(y = (-80).dp),
+            imageVector = ImageVector.vectorResource(backgroundVector),
+            contentDescription = ""
+        )
 
         Box(
-            modifier = Modifier
-                .size(500.dp)
+            Modifier
+                .size(430.dp)
+                .offset((-40).dp, (-200).dp)
                 .background(
                     color = Blue200Transparent,
                     CircleShape
                 )
+        )
+        Box(
+            Modifier
+                .size(320.dp)
+                .offset((200).dp, (-160).dp)
+                .background(
+                    color = Blue200Transparent,
+                    CircleShape
+                )
+        )
+
+        Image(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(vertical = 64.dp)
+                .size(107.dp),
+            imageVector = ImageVector.vectorResource(R.drawable.logo_dark),
+            contentDescription = ""
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+
+            Text(
+                textAlign = TextAlign.Center,
+//                modifier= Modifier.padding(16.dp),
+                text = stringResource(R.string.hello_friend),
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp
+            )
+            Text(
+                textAlign = TextAlign.Center,
+
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                text = stringResource(R.string.welcome),
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 20.sp
+            )
+            Text(
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                text = stringResource(R.string.welcome_note), fontSize = 16.sp
+            )
+
+
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 32.dp)
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(DarkBlue150, DarkBlue250),
+                            start = Offset(0f, 0f),
+                            end = Offset.Infinite,
+                        ), shape = RoundedCornerShape(16.dp)
+                    )
+                    .fillMaxWidth()
+                    .height(60.dp),
+                onClick = {
+                    onLogin.invoke()
+                }) {
+                Text(text = stringResource(R.string.login))
+            }
+
 
         }
 
+
     }
+
 
 }

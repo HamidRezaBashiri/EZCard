@@ -1,9 +1,6 @@
 package com.hamidrezabashiri.ezcard.ui.theme
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
@@ -31,9 +28,7 @@ val TurquoiseDark = Color(0xFF2CA2A6)
 val Blue200Transparent = Color(0x8863ACED)
 val DarkBlue200 = Color(0xFF0D47A1)
 val DarkBlue500 = Color(0xFF003666)
-val DarkBlueGradient = Brush.linearGradient(
-    colors = listOf(Color(0xFF1872C2), Color(0xFF00519A)),
-    start = Offset(0f, 0f),
-    end = Offset(1f, 0f),
-    tileMode = TileMode.Repeated
-)
+
+val DarkBlue150 = Color(0xFF1872C2)
+val DarkBlue250 = Color(0xFF00519A)
+

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">EzCard</string>
+    <string name="welcome_note">با ما همراه باشید و تجربه ی یک اشنرام گذاری ایمن و راحت رو را تجربه کنید. ساده ترین و مطمئن ترین راه اشتراک گذاری اطلاعات بانکی شما</string>
+    <string name="welcome">به ایزی کارت خوش آمدید!</string>
+    <string name="hello_friend">سلام دوست خوبم</string>
+    <string name="login">ورود</string>
 </resources>
