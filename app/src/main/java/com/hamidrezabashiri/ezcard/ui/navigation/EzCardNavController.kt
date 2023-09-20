@@ -1,5 +1,6 @@
 package com.hamidrezabashiri.ezcard.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -81,8 +82,11 @@ class EzCardNavController(
 
     fun navigateAndPopAllBackStackEntries(route: String, from: NavBackStackEntry) {
         navController.navigate(route) {
-            popUpTo(from.id) {
-                inclusive = true
+            Log.i("TAG", "navigateAndPopAllBackStackEntries: "+ from.destination.route)
+            from.destination.route?.let {
+                popUpTo(it) {
+                    inclusive = true
+                }
             }
         }
     }

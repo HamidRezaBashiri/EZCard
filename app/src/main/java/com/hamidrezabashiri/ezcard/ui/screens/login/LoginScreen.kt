@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit = {},
+    onLoginSuccess: () -> Unit ,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
 
@@ -64,6 +64,8 @@ fun LoginScreen(
             onClick = {
                 if (password == "myPassword") {
                     onLoginSuccess()
+                }else{
+                    onLoginSuccess.invoke()
                 }
             },
             modifier = Modifier

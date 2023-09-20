@@ -16,7 +16,7 @@ fun NavGraphBuilder.ezCardNavGraph(
 ) {
     composable(route = MainDestinations.WELCOME_ROUTE) {
         WelcomeScreen(
-            onLogin = { onNavigateToSubScreen(MainDestinations.SIGNUP_ROUTE, it) }
+            onLogin = { onNavigateAndPoppingBackStack(MainDestinations.SIGNUP_ROUTE, it) }
         )
     }
 

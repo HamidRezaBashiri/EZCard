@@ -4,20 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
-import com.hamidrezabashiri.ezcard.ui.MainViewModel
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.navigation.ezCardNavGraph
 import com.hamidrezabashiri.ezcard.ui.navigation.rememberEzCardNavController
 import com.hamidrezabashiri.ezcard.ui.theme.EzCardTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.takeWhile
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,46 +41,69 @@ class MainActivity : ComponentActivity() {
             }
 
 
-            var startDestination = MainDestinations.LOGIN_ROUTE
+            var startDestination by remember { mutableStateOf<String?>(null) }
             // Observe the Flow<Boolean> from the ViewModel
-            val isFirstLogin: Flow<Boolean> = mainViewModel.isFirstLogin
+//            val isFirstLogin: Flow<Boolean> = mainViewModel.isFirstLogin
             // Use collectAsState to collect the latest value and provide it to the Composable
-            val isFirstLoginState by isFirstLogin.collectAsState(false)
 
-            if (isFirstLoginState) {
-//                TODO FIX SHOWING OTHER SCREEN BEFORE GETTING THE VALUE FROM VIEW MODEL
-                startDestination = MainDestinations.WELCOME_ROUTE
-            } else {
-                var startDestination = MainDestinations.LOGIN_ROUTE
+            var shouldCancelCollection by remember { mutableStateOf(false) }
 
-            }
+//            val coroutineScope = rememberCoroutineScope()
 
+            DisposableEffect(shouldCancelCollection) {
+                val job = Job()
+                val scope = CoroutineScope(Dispatchers.Main + job)
 
-            EzCardTheme(darkTheme = isDarkTheme) {
-
-                NavHost(
-                    navController = ezCardNavController.navController,
-                    startDestination = startDestination
-                ) {
-                    ezCardNavGraph(
-                        upPress = { ezCardNavController.upPress() },
-                        onNavigateToBottomBarRoute = { route ->
-                            ezCardNavController.navigateToBottomBarRoute(
-                                route
-                            )
-                        },
-                        onNavigateToSubScreen = { route, navBackStackEntry ->
-                            ezCardNavController.navigateToSubScreen(route, navBackStackEntry)
-                        },
-                        onNavigateAndPoppingBackStack = { route, navBackStackEntry ->
-                            ezCardNavController.navigateAndPopAllBackStackEntries(
-                                route,
-                                navBackStackEntry
-                            )
+                // Launch a coroutine to collect the Flow with takeWhile
+                scope.launch {
+                    mainViewModel.isFirstLogin
+                        .takeWhile { !shouldCancelCollection }
+                        .collect { it ->
+                            startDestination = if (it) {
+                                MainDestinations.WELCOME_ROUTE
+                            } else {
+                                MainDestinations.LOGIN_ROUTE
+                            }
+                            shouldCancelCollection = true
                         }
-                    )
+                }
+
+                onDispose {
+                    // Set shouldCancelCollection to true to stop the collection
+                    shouldCancelCollection = true
+                    // Don't forget to cancel the job and scope when the Composable is disposed
+                    job.cancel()
                 }
             }
+
+
+            if (startDestination != null) {
+                EzCardTheme(darkTheme = isDarkTheme) {
+                    NavHost(
+                        navController = ezCardNavController.navController,
+                        startDestination = startDestination!!
+                    ) {
+                        ezCardNavGraph(
+                            upPress = { ezCardNavController.upPress() },
+                            onNavigateToBottomBarRoute = { route ->
+                                ezCardNavController.navigateToBottomBarRoute(
+                                    route
+                                )
+                            },
+                            onNavigateToSubScreen = { route, navBackStackEntry ->
+                                ezCardNavController.navigateToSubScreen(route, navBackStackEntry)
+                            },
+                            onNavigateAndPoppingBackStack = { route, navBackStackEntry ->
+                                ezCardNavController.navigateAndPopAllBackStackEntries(
+                                    route,
+                                    navBackStackEntry
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+
         }
     }
 }
