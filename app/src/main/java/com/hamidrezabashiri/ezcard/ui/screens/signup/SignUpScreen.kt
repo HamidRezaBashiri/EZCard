@@ -127,7 +127,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                 Text(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .fillMaxWidth().padding(horizontal = 16.dp),
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = stringResource(R.string.create_your_password),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 26.sp
@@ -135,7 +136,11 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
 
 
 
-                Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.password), textAlign = TextAlign.Start
@@ -147,7 +152,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     onValueChange = viewModel::onPasswordChanged,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp,start = 16.dp, end = 16.dp)
+                        .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                         .focusRequester(passwordFocusRequester),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Color.Gray,
@@ -178,11 +183,12 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                         textAlign = TextAlign.Start
                     )
                 }
-                OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
+                OutlinedTextField(isError = isErrorDisplayed && viewModel.passwordConfirmation.isEmpty(),
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.passwordConfirmation,
                     onValueChange = viewModel::onPasswordConfirmationChanged,
                     modifier = Modifier
+                        .padding(horizontal = 16.dp)
                         .fillMaxWidth()
                         .focusRequester(passwordFocusRequester),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -205,8 +211,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             )
                         }
                     })
-                if (isErrorDisplayed) {
-                    Text(text = "رمز ها یکسان نیستند!")
+                if (isErrorDisplayed && viewModel.passwordConfirmation != viewModel.password) {
+                    Text(text = "رمز ها یکسان نیستند!", color = MaterialTheme.colorScheme.error)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -227,6 +233,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                         .fillMaxWidth()
                         .height(60.dp),
                     onClick = {
+                        isErrorDisplayed = true
                         viewModel.onSignUpButtonClicked()
                     }) {
 
@@ -240,6 +247,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
 
                         is LoginState.Error -> {
                             Text(stringResource(R.string.login))
+
                             LaunchedEffect(isToastDisplayed) {
                                 isToastDisplayed = true
                             }

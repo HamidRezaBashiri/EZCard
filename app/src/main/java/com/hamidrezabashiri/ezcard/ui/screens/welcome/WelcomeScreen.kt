@@ -128,7 +128,7 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
                     containerColor = Color.Transparent,
                 ),
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 32.dp)
+                    .padding(horizontal = 32.dp, vertical = 32.dp)
                     .background(
                         Brush.linearGradient(
                             colors = listOf(DarkBlue150, DarkBlue250),

@@ -124,7 +124,7 @@ fun LoginScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
-                        text = "رمز عبور خود را وارد کنید", textAlign = TextAlign.Start
+                        text = "کلمه عبور خود را وارد کنید", textAlign = TextAlign.Start
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -158,7 +158,7 @@ fun LoginScreen(
                     })
 
                 if (isErrorDisplayed) {
-                    Text(text = "رمز عبور صحیح نیست!")
+                    Text(text = "کلمه عبور صحیح نیست!", color = MaterialTheme.colorScheme.error)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -180,6 +180,8 @@ fun LoginScreen(
                         .height(60.dp),
                     onClick = {
                         viewModel.onLoginClicked()
+                        isToastDisplayed = false
+                        isErrorDisplayed = true
                     }) {
 
                     when (loginState) {

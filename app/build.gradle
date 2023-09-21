@@ -105,6 +105,9 @@ android {
 
         implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+        implementation 'de.svenkubiak:jBCrypt:0.4.1'
+
+
 
     }
     namespace 'com.hamidrezabashiri.ezcard'
