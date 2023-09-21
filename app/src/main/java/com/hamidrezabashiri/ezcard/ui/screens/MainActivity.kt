@@ -48,13 +48,8 @@ class MainActivity : AppCompatActivity() {
 
 
             var startDestination by remember { mutableStateOf<String?>(null) }
-            // Observe the Flow<Boolean> from the ViewModel
-//            val isFirstLogin: Flow<Boolean> = mainViewModel.isFirstLogin
-            // Use collectAsState to collect the latest value and provide it to the Composable
 
             var shouldCancelCollection by remember { mutableStateOf(false) }
-
-//            val coroutineScope = rememberCoroutineScope()
 
             DisposableEffect(shouldCancelCollection) {
                 val job = Job()

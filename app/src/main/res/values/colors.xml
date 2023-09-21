@@ -15,5 +15,23 @@
     <color name="Orange700">#FFCD8607</color>
     <color name="Green200">#FF63D42E</color>
     <color name="BlueGreen">#FFBDEAE7</color>
+    <color name="Purple200">#BB86FC</color>
+    <color name="Purple500">#6200EE</color>
+    <color name="Purple700">#3700B3</color>
+    <color name="Teal200">#03DAC5</color>
+    <color name="Green500">#0CCB58</color>
+    <color name="DarkGreen700">#294046</color>
+    <color name="Red500">#F02424</color>
+    <color name="Grey50">#FAFAFA</color>
+    <color name="Grey100">#D4DADE</color>
+    <color name="Grey200">#C5C5C5</color>
+    <color name="Grey300">#AAAAAA</color>
+    <color name="pink200">#C389BC</color>
+    <color name="TurquoiseDark">#2CA2A6</color>
+    <color name="Blue200Transparent">#4463ACED</color>
+    <color name="DarkBlue200">#0D47A1</color>
+    <color name="DarkBlue500">#003666</color>
+    <color name="DarkBlue150">#1872C2</color>
+    <color name="DarkBlue250">#00519A</color>
 
 </resources>

@@ -10,12 +10,12 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Turquoise700,
+    primary = DarkBlue150,
     secondary = Orange700
 )
 
 private val LightColorPalette = lightColorScheme(
-    primary = Turquoise200,
+    primary = DarkBlue200,
     secondary = Orange500
 
     /* Other default colors to override
@@ -37,7 +37,7 @@ fun EzCardTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
         content = content
     )

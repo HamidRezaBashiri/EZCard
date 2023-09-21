@@ -19,16 +19,19 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,41 +48,47 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
         if (isDarkTheme) R.drawable.background_dark_guy else R.drawable.background_guy
 
     Box(Modifier.fillMaxSize()) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(y = (-80).dp),
-            imageVector = ImageVector.vectorResource(backgroundVector),
-            contentDescription = ""
-        )
 
-        Box(
-            Modifier
-                .size(430.dp)
-                .offset((-40).dp, (-220).dp)
-                .background(
-                    color = Blue200Transparent,
-                    CircleShape
-                )
-        )
-        Box(
-            Modifier
-                .size(320.dp)
-                .offset((200).dp, (-180).dp)
-                .background(
-                    color = Blue200Transparent,
-                    CircleShape
-                )
-        )
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-        Image(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(vertical = 64.dp)
-                .size(107.dp),
-            imageVector = ImageVector.vectorResource(R.drawable.logo_dark),
-            contentDescription = ""
-        )
+            Image(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(y = (-80).dp),
+                imageVector = ImageVector.vectorResource(backgroundVector),
+                contentDescription = ""
+            )
+
+            Box(
+                Modifier
+                    .size(430.dp)
+                    .offset((-40).dp, (-240).dp)
+                    .background(
+                        color = Blue200Transparent,
+                        CircleShape
+                    )
+            )
+            Box(
+                Modifier
+                    .size(320.dp)
+                    .offset((100).dp, (-180).dp)
+                    .background(
+                        color = Blue200Transparent,
+                        CircleShape
+                    )
+            )
+
+            Image(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(vertical = 64.dp)
+                    .size(107.dp),
+                imageVector = ImageVector.vectorResource(R.drawable.logo_dark),
+                contentDescription = ""
+            )
+        }
+
+
 
         Column(
             modifier = Modifier
@@ -98,13 +107,12 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
             )
             Text(
                 textAlign = TextAlign.Center,
-
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .fillMaxWidth(),
                 text = stringResource(R.string.welcome_to_ezcard),
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 20.sp
+                fontSize = 24.sp
             )
             Text(
                 textAlign = TextAlign.Center,

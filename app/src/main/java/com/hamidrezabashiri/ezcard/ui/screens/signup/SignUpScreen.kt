@@ -113,33 +113,31 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     textAlign = TextAlign.Center,
                     text = stringResource(R.string.hello_friend),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontSize = 32.sp, color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     textAlign = TextAlign.Center,
-
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(8.dp),
                     text = stringResource(R.string.welcome),
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp
+                    fontSize = 26.sp
                 )
                 Text(
                     textAlign = TextAlign.Center,
-
                     modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth().padding(horizontal = 16.dp),
                     text = stringResource(R.string.create_your_password),
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp
+                    fontSize = 26.sp
                 )
 
 
 
-                Row(Modifier.fillMaxWidth()) {
+                Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
                     Text(
-                        modifier = Modifier.padding(start = 4.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.password), textAlign = TextAlign.Start
                     )
                 }
@@ -149,7 +147,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     onValueChange = viewModel::onPasswordChanged,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp,start = 16.dp, end = 16.dp)
                         .focusRequester(passwordFocusRequester),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Color.Gray,
@@ -160,7 +158,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(onDone = { viewModel.onSignUpButtonClicked() }),
+                    keyboardActions = KeyboardActions(onDone = { passwordConfirmationFocusRequester.requestFocus() }),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -175,7 +173,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                 Row(Modifier.fillMaxWidth()) {
 
                     Text(
-                        modifier = Modifier.padding(start = 4.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.password_confirmation),
                         textAlign = TextAlign.Start
                     )
@@ -195,7 +193,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(onDone = { passwordConfirmationFocusRequester.requestFocus() }),
+                    keyboardActions = KeyboardActions(onDone = { viewModel.onSignUpButtonClicked() }),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -207,7 +205,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             )
                         }
                     })
-                if (isErrorDisplayed){
+                if (isErrorDisplayed) {
                     Text(text = "رمز ها یکسان نیستند!")
                 }
 
