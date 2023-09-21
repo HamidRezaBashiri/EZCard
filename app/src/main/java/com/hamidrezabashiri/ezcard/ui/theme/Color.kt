@@ -25,7 +25,7 @@ val BlueGreen = Color(0xFFBDEAE7)
 val pink200 = Color(0xFFC389BC)
 val TurquoiseDark = Color(0xFF2CA2A6)
 
-val Blue200Transparent = Color(0x8863ACED)
+val Blue200Transparent = Color(0x4463ACED)
 val DarkBlue200 = Color(0xFF0D47A1)
 val DarkBlue500 = Color(0xFF003666)
 

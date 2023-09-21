@@ -3,6 +3,8 @@ package com.hamidrezabashiri.ezcard.ui.screens
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
@@ -27,10 +30,13 @@ import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("fa"))
+
             val ezCardNavController = rememberEzCardNavController()
 
             val mainViewModel: MainViewModel = hiltViewModel()
@@ -106,6 +112,7 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
 }
 
 

@@ -56,7 +56,7 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
         Box(
             Modifier
                 .size(430.dp)
-                .offset((-40).dp, (-200).dp)
+                .offset((-40).dp, (-220).dp)
                 .background(
                     color = Blue200Transparent,
                     CircleShape
@@ -65,7 +65,7 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
         Box(
             Modifier
                 .size(320.dp)
-                .offset((200).dp, (-160).dp)
+                .offset((200).dp, (-180).dp)
                 .background(
                     color = Blue200Transparent,
                     CircleShape
@@ -102,7 +102,7 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
-                text = stringResource(R.string.welcome),
+                text = stringResource(R.string.welcome_to_ezcard),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 20.sp
             )

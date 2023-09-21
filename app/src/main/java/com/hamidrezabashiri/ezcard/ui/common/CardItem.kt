@@ -1,4 +1,4 @@
-package com.hamidrezabashiri.ezcard.utils
+package com.hamidrezabashiri.ezcard.ui.common
 
 import android.graphics.Typeface
 import androidx.compose.foundation.background
