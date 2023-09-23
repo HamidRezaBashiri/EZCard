@@ -8,4 +8,7 @@
     <string name="create_your_password">Create your password!</string>
     <string name="password_confirmation">Password confirmation</string>
     <string name="password">Password</string>
+    <string name="home">Home</string>
+    <string name="wallet">Wallet</string>
+    <string name="setting">Setting</string>
 </resources>

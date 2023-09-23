@@ -1,22 +1,24 @@
 package com.hamidrezabashiri.ezcard.ui.screens
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
+import com.hamidrezabashiri.ezcard.ui.common.BottomNavBar
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.navigation.ezCardNavGraph
 import com.hamidrezabashiri.ezcard.ui.navigation.rememberEzCardNavController
@@ -25,12 +27,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,6 +52,9 @@ class MainActivity : AppCompatActivity() {
             var startDestination by remember { mutableStateOf<String?>(null) }
 
             var shouldCancelCollection by remember { mutableStateOf(false) }
+
+            val currentRouteFlow by ezCardNavController.currentRouteFlow.collectAsState(initial = null)
+
 
             DisposableEffect(shouldCancelCollection) {
                 val job = Job()
@@ -77,30 +82,51 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            EzCardTheme(darkTheme = isDarkTheme) {
 
-            if (startDestination != null) {
-                EzCardTheme(darkTheme = isDarkTheme) {
-                    NavHost(
-                        navController = ezCardNavController.navController,
-                        startDestination = startDestination!!
-                    ) {
-                        ezCardNavGraph(
-                            upPress = { ezCardNavController.upPress() },
-                            onNavigateToBottomBarRoute = { route ->
-                                ezCardNavController.navigateToBottomBarRoute(
-                                    route
-                                )
-                            },
-                            onNavigateToSubScreen = { route, navBackStackEntry ->
-                                ezCardNavController.navigateToSubScreen(route, navBackStackEntry)
-                            },
-                            onNavigateAndPoppingBackStack = { route, navBackStackEntry ->
-                                ezCardNavController.navigateAndPopAllBackStackEntries(
-                                    route,
-                                    navBackStackEntry
-                                )
-                            }
-                        )
+                Scaffold(
+                    bottomBar = {
+                        if (currentRouteFlow == MainDestinations.HOME_ROUTE ||
+                            currentRouteFlow == MainDestinations.WALLET_ROUTE
+                            || currentRouteFlow == MainDestinations.SETTINGS_ROUTE
+                        ) {
+                            BottomNavBar(
+                                currentRoute = ezCardNavController.currentRoute,
+                                onNavItemClicked = { route ->
+                                    ezCardNavController.navigateToBottomBarRoute(
+                                        route
+                                    )
+                                })
+                        }
+                    }) {
+
+                    if (startDestination != null) {
+                        NavHost(
+                            modifier = Modifier.padding(it),
+                            navController = ezCardNavController.navController,
+                            startDestination = startDestination!!
+                        ) {
+                            ezCardNavGraph(
+                                upPress = { ezCardNavController.upPress() },
+                                onNavigateToBottomBarRoute = { route ->
+                                    ezCardNavController.navigateToBottomBarRoute(
+                                        route
+                                    )
+                                },
+                                onNavigateToSubScreen = { route, navBackStackEntry ->
+                                    ezCardNavController.navigateToSubScreen(
+                                        route,
+                                        navBackStackEntry
+                                    )
+                                },
+                                onNavigateAndPoppingBackStack = { route, navBackStackEntry ->
+                                    ezCardNavController.navigateAndPopAllBackStackEntries(
+                                        route,
+                                        navBackStackEntry
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }

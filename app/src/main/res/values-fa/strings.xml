@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="welcome_note">با ما همراه باشید و تجربه ی یک اشتراک گذاری ایمن و راحت رو را تجربه کنید. ساده ترین و مطمئن ترین راه اشتراک گذاری اطلاعات بانکی شما</string>
-<string name="welcome_to_ezcard">به ایزی کارت خوش آمدید!</string>
-<string name="welcome">خوش آمدی!</string>
-<string name="hello_friend">سلام دوست خوبم</string>
-<string name="login">ورود</string>
-<string name="create_your_password">رمز عبور خودتو بساز !</string>
-<string name="password_confirmation">تکرار رمز عبور</string>
-<string name="password">رمز عبور</string>
+    <string name="welcome_note">با ما همراه باشید و تجربه ی یک اشتراک گذاری ایمن و راحت رو را تجربه کنید. ساده ترین و مطمئن ترین راه اشتراک گذاری اطلاعات بانکی شما</string>
+    <string name="welcome_to_ezcard">به ایزی کارت خوش آمدید!</string>
+    <string name="welcome">خوش آمدی!</string>
+    <string name="hello_friend">سلام دوست خوبم</string>
+    <string name="login">ورود</string>
+    <string name="create_your_password">رمز عبور خودتو بساز !</string>
+    <string name="password_confirmation">تکرار رمز عبور</string>
+    <string name="password">رمز عبور</string>
+    <string name="home">خانه</string>
+    <string name="wallet">کارت ها</string>
+    <string name="setting">تنظیمات</string>
 </resources>

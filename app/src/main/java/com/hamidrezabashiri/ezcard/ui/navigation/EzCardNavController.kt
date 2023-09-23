@@ -10,6 +10,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 object MainDestinations {
@@ -47,6 +49,16 @@ class EzCardNavController(
 
     val currentRoute: String?
         get() = navController.currentDestination?.route
+
+
+    private val _currentRouteFlow = MutableStateFlow<String?>(null)
+    val currentRouteFlow: Flow<String?> = _currentRouteFlow
+
+    init {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            _currentRouteFlow.value = destination.route
+        }
+    }
 
     fun upPress() {
         navController.navigateUp()
