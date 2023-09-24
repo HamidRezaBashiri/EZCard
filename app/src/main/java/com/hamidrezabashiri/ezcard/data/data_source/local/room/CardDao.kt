@@ -17,9 +17,12 @@ interface CardDao {
     suspend fun deleteCard(creditCard: CreditCard)
 
     @Query("SELECT * FROM card_table")
-     fun getAllCards() : Flow<List<CreditCard>>
+    fun getAllCards(): Flow<List<CreditCard>>
 
     @Query("SELECT * FROM card_table WHERE cardHolderName = :cardHolderName")
-     fun getCardsByHolderName(cardHolderName :String) :Flow<List<CreditCard>>
+    fun getCardsByHolderName(cardHolderName: String): Flow<List<CreditCard>>
+
+    @Query("SELECT * FROM card_table WHERE id = :id")
+    fun getCardById(id: Int): Flow<CreditCard>
 
 }

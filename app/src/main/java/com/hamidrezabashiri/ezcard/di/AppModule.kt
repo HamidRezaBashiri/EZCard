@@ -1,5 +1,6 @@
 package com.hamidrezabashiri.ezcard.di
 
+import BankNameDetector
 import android.app.Application
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.CardDao
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.EzCardRoomDatabase
@@ -26,6 +27,11 @@ object AppModule {
     @Provides
     fun provideCardDao(appDatabase: EzCardRoomDatabase): CardDao {
         return appDatabase.cardDao()
+    }
+
+    @Provides
+    fun provideBankNameDetector(): BankNameDetector {
+        return BankNameDetector()
     }
 
 }

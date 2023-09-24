@@ -157,7 +157,7 @@ fun LoginScreen(
                         }
                     })
 
-                if (isErrorDisplayed) {
+                if (isErrorDisplayed && isToastDisplayed) {
                     Text(text = "کلمه عبور صحیح نیست!", color = MaterialTheme.colorScheme.error)
                 }
 

@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                             startDestination = startDestination!!
                         ) {
                             ezCardNavGraph(
+                                isDarkTheme,
                                 upPress = { ezCardNavController.upPress() },
                                 onNavigateToBottomBarRoute = { route ->
                                     ezCardNavController.navigateToBottomBarRoute(
@@ -118,14 +119,13 @@ class MainActivity : AppCompatActivity() {
                                         route,
                                         navBackStackEntry
                                     )
-                                },
-                                onNavigateAndPoppingBackStack = { route, navBackStackEntry ->
-                                    ezCardNavController.navigateAndPopAllBackStackEntries(
-                                        route,
-                                        navBackStackEntry
-                                    )
                                 }
-                            )
+                            ) { route, navBackStackEntry ->
+                                ezCardNavController.navigateAndPopAllBackStackEntries(
+                                    route,
+                                    navBackStackEntry
+                                )
+                            }
                         }
                     }
                 }

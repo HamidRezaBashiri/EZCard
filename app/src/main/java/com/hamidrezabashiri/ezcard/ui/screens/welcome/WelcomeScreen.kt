@@ -41,8 +41,8 @@ import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 
 @Composable
-fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> Unit) {
-    val isDarkTheme = isSystemInDarkTheme()
+fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> Unit, isDarkTheme:Boolean) {
+//    val isDarkTheme = isSystemInDarkTheme()
 
     val backgroundVector =
         if (isDarkTheme) R.drawable.background_dark_guy else R.drawable.background_guy
