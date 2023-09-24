@@ -8,6 +8,7 @@ import com.hamidrezabashiri.ezcard.ui.screens.home.HomeScreen
 import com.hamidrezabashiri.ezcard.ui.screens.login.LoginScreen
 import com.hamidrezabashiri.ezcard.ui.screens.shareCard.ShareCardScreen
 import com.hamidrezabashiri.ezcard.ui.screens.signup.SignUpScreen
+import com.hamidrezabashiri.ezcard.ui.screens.wallet.WalletScreen
 import com.hamidrezabashiri.ezcard.ui.screens.welcome.WelcomeScreen
 
 
@@ -48,7 +49,7 @@ fun NavGraphBuilder.ezCardNavGraph(
 
     }
     composable(route = MainDestinations.ADD_CARD_ROUTE) {
-        AddCardScreen()
+        AddCardScreen(navigateUp = { upPress() })
 
     }
     composable(route = MainDestinations.HOME_ROUTE) {
@@ -67,6 +68,12 @@ fun NavGraphBuilder.ezCardNavGraph(
     }
     composable(route = MainDestinations.WALLET_ROUTE) {
 
+        WalletScreen(navigateToAddScreen = {
+            onNavigateToSubScreen(
+                MainDestinations.ADD_CARD_ROUTE,
+                it
+            )
+        })
     }
 
 }

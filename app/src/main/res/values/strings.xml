@@ -14,4 +14,22 @@
     <string name="there_is_no_card_to_show">There is no card to show</string>
     <string name="to_add_new_card_press_plus_button">"To add new card press Plus + button "</string>
     <string name="at_the_bottom_of_screen">"at the bottom of screen "</string>
+    <string name="please_enter_your_info">Pleas Enter Your required info</string>
+
+    <string name="full_name">FullName</string>
+    <string name="card_number">Card Number</string>
+    <string name="iban">Iban Number</string>
+    <string name="account">Account Number</string>
+    <string name="cvv2">CVV2</string>
+    <string name="date">Expire date</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="year">year</string>
+    <string name="month">month</string>
+    <string name="please_enter_card_number">Please enter card number</string>
+    <string name="please_enter_card_owner_full_name">Please enter card owner full name</string>
+    <string name="please_enter_your_iban_number">Please enter your Iban number</string>
+    <string name="please_enter_your_account_number">Please enter your account number</string>
+
+
 </resources>

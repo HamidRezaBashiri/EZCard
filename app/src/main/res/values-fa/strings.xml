@@ -11,7 +11,21 @@
     <string name="home">خانه</string>
     <string name="wallet">کارت ها</string>
     <string name="setting">تنظیمات</string>
-    <string name="there_is_no_card_to_show">There is no card to show</string>
-    <string name="to_add_new_card_press_plus_button">"To add new card press Plus + button "</string>
-    <string name="at_the_bottom_of_screen">"at the bottom of screen "</string>
+    <string name="there_is_no_card_to_show">شما هنوز کارتی ثبت نکرده اید</string>
+    <string name="to_add_new_card_press_plus_button">برای افزودن کارت روی دکمه پلاس +</string>
+    <string name="at_the_bottom_of_screen">"در پایین صفحه کلیک کنید "</string>
+    <string name="please_enter_your_info">لطفا اطلاعات خود را وارد کنید</string>
+    <string name="full_name">نام و نام خانوادگی</string>
+    <string name="card_number">شماره کارت</string>
+    <string name="iban">شماره شبا</string>
+    <string name="account">شماره حساب</string>
+    <string name="cvv2">CVV2</string>
+    <string name="date">تاریخ انقضا</string>
+    <string name="confirm">تایید</string>
+    <string name="cancel">لغو</string>
+    <string name="year">سال</string>
+    <string name="month">ماه</string>
+    <string name="please_enter_card_owner_full_name">Please enter card owner full name</string>
+    <string name="please_enter_your_iban_number">Please enter your Iban number</string>
+    <string name="please_enter_your_account_number">Please enter your account number</string>
 </resources>

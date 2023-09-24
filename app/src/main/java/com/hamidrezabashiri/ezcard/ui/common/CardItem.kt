@@ -2,13 +2,14 @@ package com.hamidrezabashiri.ezcard.ui.common
 
 import android.graphics.Typeface
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -29,42 +32,58 @@ import com.hamidrezabashiri.ezcard.ui.theme.TurquoiseDark
 import com.hamidrezabashiri.ezcard.ui.theme.pink200
 
 @Composable
-fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (String) -> Unit) {
+fun CardItem(
+    card: CreditCard,
+    onDeleteClicked: () -> Unit,
+    onCopyToClipBoard: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
 
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .fillMaxWidth(0.8f)
-            .height(250.dp)
+
+    Column(
+        modifier
+            .padding(vertical = 8.dp, horizontal = 8.dp)
             .background(
                 shape = RoundedCornerShape(32.dp),
                 brush = Brush.linearGradient(0.0f to pink200, 1.0f to TurquoiseDark)
-            )
-            .padding(16.dp)
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Column(Modifier.fillMaxWidth()) {
 
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 24.dp, top = 16.dp)
+                .height(48.dp),
+            verticalAlignment = Alignment.Top
+        ) {
 
-                IconButton(onClick = { onDeleteClicked.invoke() }) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.trash),
-                        contentDescription = "delete btn"
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
+            IconButton(onClick = { onDeleteClicked.invoke() }) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(card.bankLogoResId),
-                    contentDescription = "bank logo"
+                    imageVector = ImageVector.vectorResource(R.drawable.trash),
+                    contentDescription = "delete btn", tint = Color.Unspecified
                 )
-
             }
+            Spacer(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+            )
+            Icon(
+                imageVector = ImageVector.vectorResource(card.bankLogoResId),
+                contentDescription = "bank logo", tint = Color.Unspecified
+            )
 
-            Row(
-                modifier = Modifier.padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = card.cardNumber)
+        }
+
+        Row(
+            modifier = Modifier.padding(top = 0.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (card.cardNumber.isNotEmpty()) {
+                Text(text = card.cardNumber, color = Color.White)
                 IconButton(onClick = { onCopyToClipBoard.invoke(card.cardNumber) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.copy),
@@ -72,12 +91,17 @@ fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (
                         tint = Color.Unspecified
                     )
                 }
+
             }
-            Row(
-                modifier = Modifier.padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = card.iban)
+        }
+        Row(
+            modifier = Modifier.padding(top = 0.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+
+        ) {
+            if (card.iban.isNotEmpty() && card.iban != "IR") {
+                Text(text = card.iban, color = Color.White)
                 IconButton(onClick = { onCopyToClipBoard.invoke(card.iban) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.copy),
@@ -85,9 +109,40 @@ fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (
                         tint = Color.Unspecified
                     )
                 }
-            }
 
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
+            }
+        }
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (card.cardHolderName.isNotEmpty()) {
+                Text(
+                    text = card.cardHolderName,
+                    color = Color.White,
+                    modifier = Modifier.padding(start = 32.dp)
+                )
+                IconButton(onClick = { onCopyToClipBoard.invoke(card.cardHolderName) }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.copy),
+                        contentDescription = "copy button",
+                        tint = Color.Unspecified
+                    )
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, end = 24.dp, bottom = 16.dp),
+            verticalAlignment = Alignment.Bottom
+        ) {
+            if (card.expirationDate.isNotEmpty() && card.expirationDate != "/") {
+
                 Row(verticalAlignment = Alignment.Bottom) {
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -107,10 +162,12 @@ fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (
                     }
 
                 }
-                Spacer(modifier = Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.weight(1f))
 
-                Row(verticalAlignment = Alignment.Bottom) {
+            Row(verticalAlignment = Alignment.Bottom) {
 
+                if (card.cvv2.isNotEmpty()) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(text = "CVV2", color = Color.White, fontSize = 12.sp)
                         Text(
@@ -119,6 +176,7 @@ fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (
                             fontFamily = FontFamily(Typeface.DEFAULT_BOLD)
                         )
                     }
+
                     IconButton(onClick = { onCopyToClipBoard.invoke(card.cvv2) }) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.copy),
@@ -126,11 +184,12 @@ fun CardItem(card: CreditCard, onDeleteClicked: () -> Unit, onCopyToClipBoard: (
                             tint = Color.Unspecified
                         )
                     }
-
                 }
-            }
 
+            }
         }
+
     }
 }
+
 

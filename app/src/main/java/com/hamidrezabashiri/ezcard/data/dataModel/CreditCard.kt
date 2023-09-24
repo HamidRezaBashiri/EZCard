@@ -7,17 +7,18 @@ import com.hamidrezabashiri.ezcard.R
 @Entity(tableName = "card_table")
 data class CreditCard(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
-    val cardHolderName: String = "",
-    val cardNumber: String = "",
-    val cvv2: String = "",
-    val expirationDate: String = "",
-    val bankName: String = "",
-    val bankLogoResId: Int = R.drawable.chip,
-    val iban: String = "",
-    val details: String = "",
-    val cardPass: String? = "",
-    val pass2: String? = "",
+    var id: Int? = null,
+    var cardHolderName: String = "",
+    var cardNumber: String = "",
+    var accountNumber: String = "",
+    var cvv2: String = "",
+    var expirationDate: String = "",
+    var bankName: String = "",
+    var bankLogoResId: Int = R.drawable.chip,
+    var iban: String = "",
+    var details: String = "",
+    var cardPass: String? = "",
+    var pass2: String? = "",
 ) {
 
 

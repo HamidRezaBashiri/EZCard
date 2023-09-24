@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -30,6 +32,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -70,16 +74,14 @@ fun HomeScreen(
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (cardList.isEmpty()) {
+                    navigateToAddScreen.invoke()
+                } else navigateToShareScreen.invoke()
+            },
             containerColor = DarkBlue150,
-//            modifier = Modifier.background(
-//                Brush.linearGradient(
-//                    colors = listOf(DarkBlue150, DarkBlue250),
-//                    start = Offset(0f, 0f),
-//                    end = Offset.Infinite,
-//                )
-//            )
-        ) {
+
+            ) {
             Icon(
                 imageVector = fabVector,
                 contentDescription = "fab",
@@ -163,11 +165,26 @@ fun HomeScreen(
 
                 }
             } else {
-                LazyRow {
+                // Get the device configuration
+                val configuration = LocalConfiguration.current
+
+                // Get the screen width in pixels
+                val screenWidthInPixels = with(LocalDensity.current) {
+                    configuration.screenWidthDp.dp
+                }
+
+                // Calculate the desired width (e.g., 90% of the screen width)
+                val cardWidth = (screenWidthInPixels * 0.9f)
+                LazyRow(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
+                ) {
                     items(cardList) { card ->
 
                         CardItem(
-                            card,
+                            modifier = Modifier.width(cardWidth),
+                            card = card,
                             onDeleteClicked = { viewModel.onDeleteCard(card) },
                             onCopyToClipBoard = { string ->
                                 clipboardManager.setText(

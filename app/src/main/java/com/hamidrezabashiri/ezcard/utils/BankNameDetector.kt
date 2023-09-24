@@ -1,3 +1,5 @@
+package com.hamidrezabashiri.ezcard.utils
+
 import java.util.regex.Pattern
 
 class BankNameDetector {

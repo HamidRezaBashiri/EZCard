@@ -30,7 +30,7 @@ object MainDestinations {
  */
 @Composable
 fun rememberEzCardNavController(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ): EzCardNavController = remember(navController) {
     EzCardNavController(navController)
 }
@@ -69,19 +69,12 @@ class EzCardNavController(
         if (route != currentRoute) {
 
             navController.navigate(route) {
-                anim {
-                    enter = 0
-                    exit = 0
-                    popEnter = 0
-                    popExit = 0
+
+                popUpTo(MainDestinations.HOME_ROUTE) {
+                    saveState = true
                 }
                 launchSingleTop = true
                 restoreState = true
-                // Pop up backstack to the first destination and save state. This makes going back
-                // to the start destination when pressing back in any other bottom tab.
-                popUpTo(findStartDestination(navController.graph).id) {
-                    saveState = true
-                }
             }
         }
     }
@@ -94,7 +87,7 @@ class EzCardNavController(
 
     fun navigateAndPopAllBackStackEntries(route: String, from: NavBackStackEntry) {
         navController.navigate(route) {
-            Log.i("TAG", "navigateAndPopAllBackStackEntries: "+ from.destination.route)
+            Log.i("TAG", "navigateAndPopAllBackStackEntries: " + from.destination.route)
             from.destination.route?.let {
                 popUpTo(it) {
                     inclusive = true
