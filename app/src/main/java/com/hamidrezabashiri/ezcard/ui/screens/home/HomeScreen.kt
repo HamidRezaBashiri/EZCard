@@ -1,16 +1,24 @@
 package com.hamidrezabashiri.ezcard.ui.screens.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -23,13 +31,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
@@ -51,7 +65,7 @@ import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -59,15 +73,17 @@ fun HomeScreen(
     navigateToAddScreen: () -> Unit,
     navigateToShareScreen: () -> Unit,
     navigateToDeleteScreen: (Int, NavBackStackEntry, String) -> Unit,
-    navBackStackEntry: NavBackStackEntry
+    navBackStackEntry: NavBackStackEntry,
 
-) {
+    ) {
 
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
 //    val cardList = listOf<CreditCard>(CreditCard(),CreditCard(),CreditCard())
+    var scrollState by remember { mutableStateOf(0) }
+    val lazyListState = rememberLazyListState(initialFirstVisibleItemIndex = scrollState)
 
 
     val backgroundVector =
@@ -76,6 +92,7 @@ fun HomeScreen(
     val fabVector =
         if (cardList.isEmpty()) Icons.Default.Add else ImageVector.vectorResource(id = R.drawable.icon__share_)
 
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -96,7 +113,13 @@ fun HomeScreen(
         }
 
     }, modifier = Modifier.fillMaxSize()) {
-        Box {
+
+        Box(Modifier.pointerInput(Unit) {
+            detectHorizontalDragGestures { change, dragAmount ->
+
+
+            }
+        }) {
 //        Blurred Background
             Box(
                 modifier = Modifier
@@ -170,6 +193,20 @@ fun HomeScreen(
 
                 }
             } else {
+
+//
+//                // Detect horizontal drag gestures
+//                val dragObserver: (Float) -> Unit = { offset ->
+//                    if (offset != 0f) {
+//                        coroutineScope.launch {
+//                            val newState = (scrollState + offset.sign).coerceIn(
+//                                0f,
+//                                (cardList.size - 1).toFloat()
+//                            )
+//                            scrollState = newState.toInt()
+//                        }
+//                    }
+//                }
                 // Get the device configuration
                 val configuration = LocalConfiguration.current
 
@@ -177,30 +214,71 @@ fun HomeScreen(
                 val screenWidthInPixels = with(LocalDensity.current) {
                     configuration.screenWidthDp.dp
                 }
-
                 // Calculate the desired width (e.g., 90% of the screen width)
                 val cardWidth = (screenWidthInPixels * 0.9f)
-                LazyRow(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
+
+                val pagerState = rememberPagerState(pageCount = {
+                    cardList.size
+                })
+
+//                val padding = if (pagerState.currentPage == cardList.lastIndex) 24.dp else 0.dp
+
+                HorizontalPager(
+                    beyondBoundsPageCount = 1,
+                    pageSize = PageSize.Fixed(cardWidth),
+                    state = pagerState, modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    contentPadding = PaddingValues(end = 24.dp, start = 22.dp)
+
                 ) {
-                    items(cardList) { card ->
 
-                        CardItem(
-                            modifier = Modifier.width(cardWidth),
-                            card = card,
-                            onDeleteClicked = { card.id?.let { it1 -> navigateToDeleteScreen(it1,navBackStackEntry,MainDestinations.CONFIRM_DELETE) } },
-                            onCopyToClipBoard = { string ->
-                                clipboardManager.setText(
-                                    AnnotatedString(
-                                        string
-                                    )
+                    CardItem(
+                        modifier = Modifier
+                            .width(cardWidth)
+//                            .offset((-24).dp)
+                        ,
+                        card = cardList[it],
+                        onDeleteClicked = {
+                            cardList[it].id?.let { it1 ->
+                                navigateToDeleteScreen(
+                                    it1,
+                                    navBackStackEntry,
+                                    MainDestinations.CONFIRM_DELETE
                                 )
-                            })
+                            }
+                        },
+                        onCopyToClipBoard = { string ->
+                            clipboardManager.setText(
+                                AnnotatedString(
+                                    string
+                                )
+                            )
+                        })
 
+                }
+                Row(
+                    Modifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(pagerState.pageCount) { iteration ->
+                        val color =
+                            if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                        Box(
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .clip(CircleShape)
+                                .background(color)
+                                .size(20.dp)
+
+                        )
                     }
                 }
+
+
             }
 
 

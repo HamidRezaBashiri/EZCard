@@ -118,13 +118,17 @@ fun ConfirmDeleteScreen(
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { upPress.invoke() }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back icon")
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "back icon",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 16.dp).size(34.dp)
+                    )
 
                 }
             }
             Image(
                 modifier = Modifier
-                    .padding(vertical = 64.dp)
                     .size(107.dp),
                 imageVector = ImageVector.vectorResource(R.drawable.logo_dark),
                 contentDescription = "",
@@ -146,8 +150,11 @@ fun ConfirmDeleteScreen(
                 text = stringResource(R.string.do_you_want_to_delete_above_card),
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Center,
+                lineHeight = 42.sp
             )
 
             Spacer(modifier = Modifier.weight(1f))

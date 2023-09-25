@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
+import com.hamidrezabashiri.ezcard.ui.common.drawVerticalScrollbar
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
@@ -49,6 +51,8 @@ fun WalletScreen(
 ) {
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
+
+    val lazyListState = rememberLazyListState()
 
 
     Scaffold(floatingActionButton = {
@@ -110,10 +114,13 @@ fun WalletScreen(
             }
 
             LazyColumn(
+                state = lazyListState,
                 modifier = Modifier
+                    .drawVerticalScrollbar(lazyListState)
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
+
                 items(cardList) { card ->
                     CardItem(
                         modifier = Modifier.fillMaxWidth(),

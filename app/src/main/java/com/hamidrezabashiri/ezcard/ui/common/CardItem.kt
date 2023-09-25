@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -107,8 +108,8 @@ fun CardItem(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, end = 24.dp, top = 16.dp)
-                        .height(48.dp),
+                        .padding(start = 16.dp, end = 24.dp)
+                        .height(36.dp),
                     verticalAlignment = Alignment.Top
                 ) {
 
@@ -117,7 +118,7 @@ fun CardItem(
                             imageVector = ImageVector.vectorResource(R.drawable.trash),
                             contentDescription = "delete btn",
                             tint = Color.Unspecified,
-                            modifier = Modifier.size(32.dp)
+                            modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
 
                         )
                     }
@@ -132,7 +133,7 @@ fun CardItem(
                         imageVector = ImageVector.vectorResource(bankIconResId),
                         contentDescription = "bank logo",
                         tint = Color.Unspecified,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
                     )
 
                 }
@@ -186,7 +187,7 @@ fun CardItem(
                     Text(
                         text = card.cardHolderName,
                         color = Color.White,
-                        modifier = Modifier.padding(end = 32.dp)
+//                        modifier = Modifier.padding(start = 32.dp)
                     )
                     IconButton(onClick = { onCopyToClipBoard.invoke(card.cardHolderName) }) {
                         Icon(
