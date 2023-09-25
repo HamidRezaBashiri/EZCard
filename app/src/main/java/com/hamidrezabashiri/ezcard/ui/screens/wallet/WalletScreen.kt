@@ -33,13 +33,20 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
+import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WalletScreen(viewModel: WalletViewModel = hiltViewModel(), navigateToAddScreen: () -> Unit) {
+fun WalletScreen(
+    viewModel: WalletViewModel = hiltViewModel(),
+    navigateToAddScreen: () -> Unit,
+    navigateToDeleteScreen: (Int, NavBackStackEntry, String) -> Unit,
+    navBackStackEntry: NavBackStackEntry,
+) {
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
@@ -107,11 +114,18 @@ fun WalletScreen(viewModel: WalletViewModel = hiltViewModel(), navigateToAddScre
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
-                items(cardList) {
+                items(cardList) { card ->
                     CardItem(
                         modifier = Modifier.fillMaxWidth(),
-                        card = it,
-                        onDeleteClicked = { viewModel.onDeleteCard(it) },
+                        card = card,
+                        onDeleteClicked = {
+                            card.id?.let { it1 ->
+                                navigateToDeleteScreen(
+                                    it1, navBackStackEntry,
+                                    MainDestinations.CONFIRM_DELETE
+                                )
+                            }
+                        },
                         onCopyToClipBoard = { string ->
                             clipboardManager.setText(
                                 AnnotatedString(

@@ -109,9 +109,11 @@ class MainActivity : AppCompatActivity() {
                             ezCardNavGraph(
                                 isDarkTheme,
                                 upPress = { ezCardNavController.upPress() },
-                                onNavigateToBottomBarRoute = { route ->
-                                    ezCardNavController.navigateToBottomBarRoute(
-                                        route
+                                onNavigateWithParams = { param, navBackStack, route ->
+                                    ezCardNavController.navigateWithParam(
+                                        param = param,
+                                        from = navBackStack,
+                                        route = route
                                     )
                                 },
                                 onNavigateToSubScreen = { route, navBackStackEntry ->

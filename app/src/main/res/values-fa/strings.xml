@@ -25,7 +25,10 @@
     <string name="cancel">لغو</string>
     <string name="year">سال</string>
     <string name="month">ماه</string>
-    <string name="please_enter_card_owner_full_name">Please enter card owner full name</string>
-    <string name="please_enter_your_iban_number">Please enter your Iban number</string>
-    <string name="please_enter_your_account_number">Please enter your account number</string>
+    <string name="please_enter_card_owner_full_name">لطفا نام و نام خانوادگی صاحب کارت را وارد کنید</string>
+    <string name="please_enter_your_iban_number">لطفا شماره شبای خود را بدون فاصله وارد کنید</string>
+    <string name="please_enter_your_account_number">لطفا شماره حساب خود را بدون فاصله وارد کنید</string>
+    <string name="please_enter_card_number">لطفا شماره کارت خود را بدون فاصله وارد کنید</string>
+    <string name="do_you_want_to_delete_above_card">آیا میخواهید اطلاعات کامل مربوط به کارت بالا را پاک کنید؟</string>
+
 </resources>

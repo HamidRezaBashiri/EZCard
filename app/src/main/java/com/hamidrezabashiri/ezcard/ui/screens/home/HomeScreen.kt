@@ -42,8 +42,10 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
+import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
@@ -56,6 +58,9 @@ fun HomeScreen(
     isDarkTheme: Boolean,
     navigateToAddScreen: () -> Unit,
     navigateToShareScreen: () -> Unit,
+    navigateToDeleteScreen: (Int, NavBackStackEntry, String) -> Unit,
+    navBackStackEntry: NavBackStackEntry
+
 ) {
 
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
@@ -185,7 +190,7 @@ fun HomeScreen(
                         CardItem(
                             modifier = Modifier.width(cardWidth),
                             card = card,
-                            onDeleteClicked = { viewModel.onDeleteCard(card) },
+                            onDeleteClicked = { card.id?.let { it1 -> navigateToDeleteScreen(it1,navBackStackEntry,MainDestinations.CONFIRM_DELETE) } },
                             onCopyToClipBoard = { string ->
                                 clipboardManager.setText(
                                     AnnotatedString(

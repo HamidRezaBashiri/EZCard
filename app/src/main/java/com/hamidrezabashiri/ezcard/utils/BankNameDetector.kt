@@ -1,37 +1,38 @@
 package com.hamidrezabashiri.ezcard.utils
 
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class BankNameDetector {
+class BankNameDetector @Inject constructor() {
     private val IBAN_PREFIX = "IR"
 
     private val cardNumberToBankMap = mapOf(
-        "603799" to "بانک ملی",
-        "621986" to "بانک سامان",
-        "589210" to "بانک سپه",
-        "639346" to "بانک سینا",
-        "627648" to "بانک توسعه صادرات",
-        "639607" to "بانک سرمایه",
-        "627961" to "بانک صنعت و معدن",
-        "504706" to "بانک شهر",
-        "603770" to "بانک کشاورزی",
-        "502938" to "بانک دی",
-        "628023" to "بانک مسکن",
-        "603769" to "بانک صادرات",
-        "627760" to "پست بانک",
-        "610433" to "بانک ملت",
-        "502908" to "بانک توسعه تعاون",
-        "627383" to "بانک تجارت",
-        "627412" to "بانک اقتصاد نوین",
-        "589463" to "بانک رفاه",
-        "622106" to "بانک پارسیان",
-        "507677" to "موسسه نور",
-        "502229" to "بانک پاسارگاد",
-        "606256" to "موسسه ملل",
-        "639599" to "بانک قوامین",
-        "606373" to "بانک قرض الحسنه مهر ایرانیان",
-        "627488" to "بانک کارآفرین",
-        "505416" to "بانک گردشگری"
+        "603799" to "bank_markazi",
+        "621986" to "saman",
+        "589210" to "sepah",
+        "639346" to "sina",
+        "627648" to "tosee_saderat",
+        "639607" to "sarmayeh",
+        "627961" to "sanat_madan",
+        "504706" to "shahr",
+        "603770" to "keshavarzi",
+        "502938" to "dey",
+        "628023" to "maskan",
+        "603769" to "saderat",
+        "627760" to "post",
+        "610433" to "mellat",
+        "502908" to "tosee_taavon",
+        "627383" to "tejarat",
+        "627412" to "eghtesad_novin",
+        "589463" to "refah",
+        "622106" to "parsian",
+        "507677" to "noor",
+        "502229" to "pasargad",
+        "606256" to "melall",
+        "639599" to "ghavamin",
+        "606373" to "mehr_iran",
+        "627488" to "karafarin",
+        "505416" to "gardeshgari"
     )
 
     private val ibanToBankMap = mapOf(

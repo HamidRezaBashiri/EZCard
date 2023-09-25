@@ -163,7 +163,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(onDone = { passwordConfirmationFocusRequester.requestFocus() }),
+                    keyboardActions = KeyboardActions(onNext = { passwordConfirmationFocusRequester.requestFocus() }),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -190,7 +190,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .focusRequester(passwordFocusRequester),
+                        .focusRequester(passwordConfirmationFocusRequester),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Color.Gray,
                         unfocusedBorderColor = Color.LightGray, cursorColor = Color.Gray

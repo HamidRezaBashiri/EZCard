@@ -123,7 +123,7 @@ fun LoginScreen(
                         .padding(top = 16.dp)
                 ) {
                     Text(
-                        modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(start = 24.dp, bottom = 4.dp),
                         text = "کلمه عبور خود را وارد کنید", textAlign = TextAlign.Start
                     )
                 }
@@ -189,12 +189,20 @@ fun LoginScreen(
                             LaunchedEffect(Unit) {
                                 onLoginSuccess.invoke()
                             }
-                            Text(stringResource(R.string.login))
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 24.sp
+                            )
                         }
 
                         is LoginState.Error -> {
-                            Text(stringResource(R.string.login))
-                            LaunchedEffect(isToastDisplayed) {
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 24.sp
+                            )
+                            LaunchedEffect (isToastDisplayed) {
                                 isToastDisplayed = true
                             }
                             if (!isToastDisplayed) {
@@ -216,7 +224,11 @@ fun LoginScreen(
                         }
 
                         else -> {
-                            Text("ورود")
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 24.sp
+                            )
                         }
                     }
 

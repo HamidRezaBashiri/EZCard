@@ -23,6 +23,7 @@ object MainDestinations {
     const val SHARE_CARD_ROUTE = "shareCard"
     const val ADD_CARD_ROUTE = "addCard"
     const val WELCOME_ROUTE = "welcome_screen"
+    const val CONFIRM_DELETE="confirm_delete"
 }
 
 /**
@@ -96,7 +97,7 @@ class EzCardNavController(
         }
     }
 
-    fun navigateWithParam(param: Long, from: NavBackStackEntry, route: String) {
+    fun navigateWithParam(param: Int, from: NavBackStackEntry, route: String) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("$route/$param")

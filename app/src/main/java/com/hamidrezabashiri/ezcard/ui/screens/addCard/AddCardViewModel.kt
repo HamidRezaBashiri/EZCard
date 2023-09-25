@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddCardViewModel @Inject constructor(
     private val repository: CardRepository,
-    private val bankNameDetector: BankNameDetector,
+    val bankNameDetector: BankNameDetector,
 ) : ViewModel() {
 
 
@@ -37,11 +37,11 @@ class AddCardViewModel @Inject constructor(
         cardNumber = new
     }
 
-    var iban by mutableStateOf("IR")
+    var iban by mutableStateOf("")
         private set
 
     fun onIbanChanged(new: String) {
-        iban = new
+        iban = "IR$new"
     }
 
     var accountNumber by mutableStateOf("")
