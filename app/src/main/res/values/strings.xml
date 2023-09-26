@@ -31,6 +31,8 @@
     <string name="please_enter_your_iban_number">Please enter your Iban number</string>
     <string name="please_enter_your_account_number">Please enter your account number</string>
     <string name="do_you_want_to_delete_above_card">Do you want to Delete above Card ?</string>
+    <string name="send">share</string>
+    <string name="card_info">Card Info</string>
 
 
 </resources>

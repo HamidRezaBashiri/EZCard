@@ -59,20 +59,20 @@ fun NavGraphBuilder.ezCardNavGraph(
         HomeScreen(
             isDarkTheme = isDarkTheme,
             navigateToAddScreen = { onNavigateToSubScreen(MainDestinations.ADD_CARD_ROUTE, it) },
-            navigateToShareScreen = {
-                onNavigateToSubScreen(
-                    MainDestinations.SHARE_CARD_ROUTE,
-                    it
-                )
-            },
-            navigateToDeleteScreen = onNavigateWithParams, navBackStackEntry = it
+            navigateWithParam = onNavigateWithParams,
+            navBackStackEntry = it
 
         )
 
     }
-    composable(route = MainDestinations.SHARE_CARD_ROUTE) {
+    composable(
+        route = "${MainDestinations.SHARE_CARD_ROUTE}/{param}",
+        arguments = listOf(navArgument("param") { type = NavType.IntType })
 
-        ShareCardScreen()
+    ) {
+        val param = it.arguments?.getInt("param")
+
+        ShareCardScreen(cardId = param,upPress = upPress)
 
     }
     composable(

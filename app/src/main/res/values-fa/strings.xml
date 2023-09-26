@@ -30,5 +30,7 @@
     <string name="please_enter_your_account_number">لطفا شماره حساب خود را بدون فاصله وارد کنید</string>
     <string name="please_enter_card_number">لطفا شماره کارت خود را بدون فاصله وارد کنید</string>
     <string name="do_you_want_to_delete_above_card">آیا میخواهید اطلاعات کامل مربوط به کارت بالا را پاک کنید؟</string>
+    <string name="send">ارسال</string>
+    <string name="card_info">اطلاعات کارت</string>
 
 </resources>

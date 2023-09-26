@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
@@ -82,9 +83,18 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
     creditCard.cardNumber = viewModel.cardNumber
     creditCard.iban = viewModel.iban
     creditCard.accountNumber = viewModel.accountNumber
-    creditCard.expirationDate = viewModel.dateYear + "/" + viewModel.dateMonth
     creditCard.cvv2 = viewModel.cvv2
+    val year = viewModel.dateYear
+    val month = viewModel.dateMonth
 
+    val expirationDate = when {
+        year.isEmpty() && month.isEmpty() -> ""
+        year.isEmpty() -> "/$month"
+        month.isEmpty() -> "$year/"
+        else -> "$year/$month"
+    }
+
+    creditCard.expirationDate = expirationDate
     creditCard.bankName =viewModel.bankNameDetector.detectBank(creditCard.cardNumber)
 
 
@@ -210,7 +220,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text , imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(onNext = { cardNumFocusRequester.requestFocus() }),
                 )
 
@@ -243,7 +253,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(onNext = { ibanFocusRequester.requestFocus() }),
                 )
                 Row(
@@ -275,7 +285,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(onNext = { accountFocusRequester.requestFocus() }),
                 )
 
@@ -307,7 +317,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(onNext = { dateMonthFocusRequester.requestFocus() }),
                 )
 
@@ -343,7 +353,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 singleLine = true,
                                 maxLines = 1,
                                 interactionSource = remember { MutableInteractionSource() },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                                 keyboardActions = KeyboardActions(onNext = { dateYearFocusRequester.requestFocus() }),
                             )
                             OutlinedTextField(
@@ -361,7 +371,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 singleLine = true,
                                 maxLines = 1,
                                 interactionSource = remember { MutableInteractionSource() },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                                 keyboardActions = KeyboardActions(onNext = { cvvFocusRequester.requestFocus() }),
                             )
                         }
@@ -398,12 +408,13 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             singleLine = true,
                             maxLines = 1,
                             interactionSource = remember { MutableInteractionSource() },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                             keyboardActions = KeyboardActions(onDone = {
                                 viewModel.addCard(
                                     creditCard
                                 )
-                            }),
+                                navigateUp.invoke()
+                            })
                         )
                     }
                 }

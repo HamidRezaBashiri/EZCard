@@ -41,7 +41,7 @@ class AddCardViewModel @Inject constructor(
         private set
 
     fun onIbanChanged(new: String) {
-        iban = "IR$new"
+        iban = new
     }
 
     var accountNumber by mutableStateOf("")

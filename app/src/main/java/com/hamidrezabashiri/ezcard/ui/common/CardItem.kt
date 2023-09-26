@@ -1,6 +1,8 @@
 package com.hamidrezabashiri.ezcard.ui.common
 
+import android.content.Context
 import android.graphics.Typeface
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,10 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
@@ -41,6 +43,8 @@ fun CardItem(
     onCopyToClipBoard: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     val bankIconsMap = mapOf(
         "ansar" to R.drawable.ansar,
         "ayandeh" to R.drawable.ayandeh,
@@ -108,7 +112,7 @@ fun CardItem(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, end = 24.dp)
+                        .padding(start = 16.dp, end = 24.dp, top = 8.dp)
                         .height(36.dp),
                     verticalAlignment = Alignment.Top
                 ) {
@@ -118,7 +122,9 @@ fun CardItem(
                             imageVector = ImageVector.vectorResource(R.drawable.trash),
                             contentDescription = "delete btn",
                             tint = Color.Unspecified,
-                            modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                            modifier = Modifier
+                                .size(32.dp)
+                                .align(Alignment.CenterVertically)
 
                         )
                     }
@@ -133,7 +139,9 @@ fun CardItem(
                         imageVector = ImageVector.vectorResource(bankIconResId),
                         contentDescription = "bank logo",
                         tint = Color.Unspecified,
-                        modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                        modifier = Modifier
+                            .size(32.dp)
+                            .align(Alignment.CenterVertically)
                     )
 
                 }
@@ -148,7 +156,10 @@ fun CardItem(
             ) {
                 if (card.cardNumber.isNotEmpty()) {
                     Text(text = formatCardNumber(card.cardNumber), color = Color.White)
-                    IconButton(onClick = { onCopyToClipBoard.invoke(card.cardNumber) }) {
+                    IconButton(onClick = {
+                        showToast(context)
+                        onCopyToClipBoard.invoke(card.cardNumber)
+                    }) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.copy),
                             contentDescription = "copy button",
@@ -189,7 +200,10 @@ fun CardItem(
                         color = Color.White,
 //                        modifier = Modifier.padding(start = 32.dp)
                     )
-                    IconButton(onClick = { onCopyToClipBoard.invoke(card.cardHolderName) }) {
+                    IconButton(onClick = {
+                        showToast(context)
+                        onCopyToClipBoard.invoke(card.cardHolderName)
+                    }) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.copy),
                             contentDescription = "copy button",
@@ -217,7 +231,10 @@ fun CardItem(
                             )
                         }
 
-                        IconButton(onClick = { onCopyToClipBoard.invoke(card.cvv2) }) {
+                        IconButton(onClick = {
+                            showToast(context)
+                            onCopyToClipBoard.invoke(card.cvv2)
+                        }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                 contentDescription = "copy button",
@@ -240,7 +257,10 @@ fun CardItem(
                                 fontFamily = FontFamily(Typeface.DEFAULT_BOLD)
                             )
                         }
-                        IconButton(onClick = { onCopyToClipBoard.invoke(card.expirationDate) }) {
+                        IconButton(onClick = {
+                            showToast(context)
+                            onCopyToClipBoard.invoke(card.expirationDate)
+                        }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                 contentDescription = "copy button",
@@ -269,4 +289,7 @@ private fun formatCardNumber(cardNumber: String): String {
     return formattedNumber.toString()
 }
 
+fun showToast(context: Context) {
+    Toast.makeText(context, "در کلیپ برد کپی شد!", Toast.LENGTH_SHORT).show()
+}
 
