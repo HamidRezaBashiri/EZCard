@@ -44,6 +44,11 @@ import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 import com.hamidrezabashiri.ezcard.utils.LoginState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.takeWhile
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,8 +56,37 @@ import com.hamidrezabashiri.ezcard.utils.LoginState
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
-) {
+    onFirstLaunch: ()->Unit,
 
+    ) {
+
+            var shouldCancelCollection by remember { mutableStateOf(false) }
+
+
+
+            DisposableEffect(shouldCancelCollection) {
+                val job = Job()
+                val scope = CoroutineScope(Dispatchers.Main + job)
+
+                // Launch a coroutine to collect the Flow with takeWhile
+                scope.launch {
+                    viewModel.isFirstLogin
+                        .takeWhile { !shouldCancelCollection }
+                        .collect { it ->
+                            if (it){
+                                onFirstLaunch.invoke()
+                            }
+                            shouldCancelCollection = true
+                        }
+                }
+
+                onDispose {
+                    // Set shouldCancelCollection to true to stop the collection
+                    shouldCancelCollection = true
+                    // Don't forget to cancel the job and scope when the Composable is disposed
+                    job.cancel()
+                }
+            }
 
     val loginState by viewModel.loginState.collectAsState()
 

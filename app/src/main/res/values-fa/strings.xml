@@ -32,5 +32,6 @@
     <string name="do_you_want_to_delete_above_card">آیا میخواهید اطلاعات کامل مربوط به کارت بالا را پاک کنید؟</string>
     <string name="send">ارسال</string>
     <string name="card_info">اطلاعات کارت</string>
+    <string name="settings">Settings</string>
 
 </resources>

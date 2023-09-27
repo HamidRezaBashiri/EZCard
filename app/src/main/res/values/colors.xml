@@ -33,5 +33,11 @@
     <color name="DarkBlue500">#003666</color>
     <color name="DarkBlue150">#1872C2</color>
     <color name="DarkBlue250">#00519A</color>
+    <color name="LightBlue">#3898FF</color>
+    <color name="DarkBlue">#0E5DBB</color>
+    <color name="IntermediateBlue">#2477E6</color>
+
+
+
 
 </resources>

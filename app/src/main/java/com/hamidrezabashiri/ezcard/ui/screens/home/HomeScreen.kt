@@ -555,7 +555,7 @@ fun HomeScreen(
                                     onValueChange = {},
                                     modifier = Modifier
                                         .padding(horizontal = 16.dp)
-                                        .width(84.dp),
+                                        .width(120.dp),
                                     colors = TextFieldDefaults.outlinedTextFieldColors(
                                         unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                                     ),

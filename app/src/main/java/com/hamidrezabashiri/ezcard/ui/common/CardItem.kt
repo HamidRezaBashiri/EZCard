@@ -187,31 +187,7 @@ fun CardItem(
 
                 }
             }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(end = 16.dp),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (card.cardHolderName.isNotEmpty()) {
-                    Text(
-                        text = card.cardHolderName,
-                        color = Color.White,
-//                        modifier = Modifier.padding(start = 32.dp)
-                    )
-                    IconButton(onClick = {
-                        showToast(context)
-                        onCopyToClipBoard.invoke(card.cardHolderName)
-                    }) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.copy),
-                            contentDescription = "copy button",
-                            tint = Color.Unspecified
-                        )
-                    }
-                }
-            }
+
 
             Row(
                 modifier = Modifier
@@ -220,20 +196,22 @@ fun CardItem(
                 verticalAlignment = Alignment.Bottom
             ) {
 
-                Row(verticalAlignment = Alignment.Bottom) {
-                    if (card.cvv2.isNotEmpty()) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = "CVV2", color = Color.White, fontSize = 12.sp)
-                            Text(
-                                text = card.cvv2,
-                                color = Color.White,
-                                fontFamily = FontFamily(Typeface.DEFAULT_BOLD)
-                            )
-                        }
+                if (card.cardHolderName.isNotEmpty()) {
 
+                    Row(
+                        Modifier
+                            .padding(end = 16.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = card.cardHolderName,
+                            color = Color.White,
+//                        modifier = Modifier.padding(start = 32.dp)
+                        )
                         IconButton(onClick = {
                             showToast(context)
-                            onCopyToClipBoard.invoke(card.cvv2)
+                            onCopyToClipBoard.invoke(card.cardHolderName)
                         }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
@@ -243,6 +221,30 @@ fun CardItem(
                         }
                     }
                 }
+//                if (card.cvv2.isNotEmpty()) {
+//
+//                    Row(verticalAlignment = Alignment.Bottom) {
+//                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                            Text(text = "CVV2", color = Color.White, fontSize = 12.sp)
+//                            Text(
+//                                text = card.cvv2,
+//                                color = Color.White,
+//                                fontFamily = FontFamily(Typeface.DEFAULT_BOLD)
+//                            )
+//                        }
+//
+//                        IconButton(onClick = {
+//                            showToast(context)
+//                            onCopyToClipBoard.invoke(card.cvv2)
+//                        }) {
+//                            Icon(
+//                                imageVector = ImageVector.vectorResource(R.drawable.copy),
+//                                contentDescription = "copy button",
+//                                tint = Color.Unspecified
+//                            )
+//                        }
+//                    }
+//                }
                 Spacer(modifier = Modifier.weight(1f))
 
                 if (card.expirationDate.isNotEmpty() && card.expirationDate != "/") {

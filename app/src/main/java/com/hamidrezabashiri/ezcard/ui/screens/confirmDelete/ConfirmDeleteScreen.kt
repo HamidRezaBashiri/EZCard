@@ -148,13 +148,13 @@ fun ConfirmDeleteScreen(
 
             Text(
                 text = stringResource(R.string.do_you_want_to_delete_above_card),
-                fontSize = 32.sp,
+                fontSize = 24.sp,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
-                lineHeight = 42.sp
+                lineHeight = 36.sp
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -188,7 +188,7 @@ fun ConfirmDeleteScreen(
             Button(
                 shape = RoundedCornerShape(16.dp),
                 border = BorderStroke(
-                    1.dp, MaterialTheme.colorScheme.error
+                    1.dp, MaterialTheme.colorScheme.primary
                 ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface,

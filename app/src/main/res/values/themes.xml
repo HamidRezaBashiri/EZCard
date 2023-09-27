@@ -16,7 +16,9 @@
 
         <item name="android:fontFamily">@font/font_iransans</item>
 
+
     </style>
+
 
     <style name="Theme.EzCard.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -26,4 +28,12 @@
     <style name="Theme.EzCard.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.EzCard.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- styles.xml or themes.xml -->
+    <style name="Theme.EzCard.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/DarkBlue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.EzCard.NoActionBar</item>
+
+    </style>
 </resources>

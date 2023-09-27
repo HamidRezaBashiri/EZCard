@@ -16,4 +16,11 @@
 
         <item name="android:fontFamily">@font/font_iransans</item>
     </style>
+
+    <!-- styles.xml or themes.xml -->
+    <style name="Theme.EzCard.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/Blue200Transparent</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.EzCard</item>
+    </style>
 </resources>

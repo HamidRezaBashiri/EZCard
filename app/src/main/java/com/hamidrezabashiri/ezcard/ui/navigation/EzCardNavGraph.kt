@@ -44,7 +44,8 @@ fun NavGraphBuilder.ezCardNavGraph(
                     MainDestinations.HOME_ROUTE,
                     it
                 )
-            }
+            },onFirstLaunch = { onNavigateAndPoppingBackStack(MainDestinations.WELCOME_ROUTE, it) }
+
         )
 
     }
@@ -72,7 +73,7 @@ fun NavGraphBuilder.ezCardNavGraph(
     ) {
         val param = it.arguments?.getInt("param")
 
-        ShareCardScreen(cardId = param,upPress = upPress)
+        ShareCardScreen(cardId = param, upPress = upPress)
 
     }
     composable(
