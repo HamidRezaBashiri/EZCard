@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,6 +68,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
+import com.hamidrezabashiri.ezcard.model.ThemeMode
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.common.drawVerticalScrollbar
 import com.hamidrezabashiri.ezcard.ui.common.showToast
@@ -81,12 +83,26 @@ import kotlin.math.absoluteValue
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    isDarkTheme: Boolean,
     navigateToAddScreen: () -> Unit,
     navigateWithParam: (Int, NavBackStackEntry, String) -> Unit,
     navBackStackEntry: NavBackStackEntry,
 
     ) {
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
+    var isDarkTheme by remember {
+        mutableStateOf(isSystemInDarkTheme)
+    }
+
+    val themeMode = viewModel.appThemeState.value
+
+
+    when (themeMode) {
+        ThemeMode.DARK -> isDarkTheme = true
+        ThemeMode.LIGHT -> isDarkTheme = false
+        else -> {}
+    }
+
     val context = LocalContext.current
 
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())

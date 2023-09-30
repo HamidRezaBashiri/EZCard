@@ -1,27 +1,29 @@
 package com.hamidrezabashiri.ezcard.ui.screens
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hamidrezabashiri.ezcard.data.repository.app.AppConfigRepository
+import com.hamidrezabashiri.ezcard.model.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(dataStore: DataStore<Preferences>) : ViewModel() {
+class MainViewModel @Inject constructor(private val appConfigRepository: AppConfigRepository) :
+    ViewModel() {
 
-    private val isFirstLoginKey = booleanPreferencesKey("is_first_login")
+    private val _appThemeState = mutableStateOf<ThemeMode?>(null)
+    val appThemeState: State<ThemeMode?> = _appThemeState
 
-    val isFirstLogin: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[isFirstLoginKey] ?: true
+    init {
+        viewModelScope.launch {
+            appConfigRepository.getAppTheme().collect { themeMode ->
+                _appThemeState.value = themeMode
+            }
+        }
     }
-//
-
-
 }
+
+

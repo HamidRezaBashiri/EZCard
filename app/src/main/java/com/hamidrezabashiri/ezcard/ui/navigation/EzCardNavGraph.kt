@@ -9,6 +9,7 @@ import com.hamidrezabashiri.ezcard.ui.screens.addCard.AddCardScreen
 import com.hamidrezabashiri.ezcard.ui.screens.confirmDelete.ConfirmDeleteScreen
 import com.hamidrezabashiri.ezcard.ui.screens.home.HomeScreen
 import com.hamidrezabashiri.ezcard.ui.screens.login.LoginScreen
+import com.hamidrezabashiri.ezcard.ui.screens.settings.SettingsScreen
 import com.hamidrezabashiri.ezcard.ui.screens.shareCard.ShareCardScreen
 import com.hamidrezabashiri.ezcard.ui.screens.signup.SignUpScreen
 import com.hamidrezabashiri.ezcard.ui.screens.wallet.WalletScreen
@@ -17,6 +18,7 @@ import com.hamidrezabashiri.ezcard.ui.screens.welcome.WelcomeScreen
 
 fun NavGraphBuilder.ezCardNavGraph(
     isDarkTheme: Boolean,
+    onThemeChange: () -> Unit,
     upPress: () -> Unit,
     onNavigateWithParams: (Int, NavBackStackEntry, String) -> Unit,
     onNavigateToSubScreen: (String, NavBackStackEntry) -> Unit,
@@ -32,25 +34,23 @@ fun NavGraphBuilder.ezCardNavGraph(
     composable(route = MainDestinations.SIGNUP_ROUTE) {
         SignUpScreen(onSignUpSuccess = {
             onNavigateAndPoppingBackStack(
-                MainDestinations.HOME_ROUTE,
-                it
+                MainDestinations.HOME_ROUTE, it
             )
         })
     }
     composable(route = MainDestinations.LOGIN_ROUTE) {
-        LoginScreen(
-            onLoginSuccess = {
-                onNavigateAndPoppingBackStack(
-                    MainDestinations.HOME_ROUTE,
-                    it
-                )
-            },onFirstLaunch = { onNavigateAndPoppingBackStack(MainDestinations.WELCOME_ROUTE, it) }
+        LoginScreen(onLoginSuccess = {
+            onNavigateAndPoppingBackStack(
+                MainDestinations.HOME_ROUTE, it
+            )
+        }, onFirstLaunch = { onNavigateAndPoppingBackStack(MainDestinations.WELCOME_ROUTE, it) }
 
         )
 
     }
     composable(route = MainDestinations.SETTINGS_ROUTE) {
 
+        SettingsScreen( onThemeChange = onThemeChange)
     }
     composable(route = MainDestinations.ADD_CARD_ROUTE) {
         AddCardScreen(navigateUp = { upPress() })
@@ -58,7 +58,6 @@ fun NavGraphBuilder.ezCardNavGraph(
     }
     composable(route = MainDestinations.HOME_ROUTE) {
         HomeScreen(
-            isDarkTheme = isDarkTheme,
             navigateToAddScreen = { onNavigateToSubScreen(MainDestinations.ADD_CARD_ROUTE, it) },
             navigateWithParam = onNavigateWithParams,
             navBackStackEntry = it
@@ -90,8 +89,7 @@ fun NavGraphBuilder.ezCardNavGraph(
         WalletScreen(
             navigateToAddScreen = {
                 onNavigateToSubScreen(
-                    MainDestinations.ADD_CARD_ROUTE,
-                    it
+                    MainDestinations.ADD_CARD_ROUTE, it
                 )
             }, navigateToDeleteScreen = onNavigateWithParams, navBackStackEntry = it
 

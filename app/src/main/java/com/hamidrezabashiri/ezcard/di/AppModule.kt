@@ -1,6 +1,8 @@
 package com.hamidrezabashiri.ezcard.di
 
 import android.app.Application
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.CardDao
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.EzCardRoomDatabase
 import com.hamidrezabashiri.ezcard.data.data_source.local.room.UserDao

@@ -18,6 +18,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
+import com.hamidrezabashiri.ezcard.model.ThemeMode
 import com.hamidrezabashiri.ezcard.ui.common.BottomNavBar
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.navigation.ezCardNavGraph
@@ -38,87 +39,61 @@ class MainActivity : AppCompatActivity() {
 
             val ezCardNavController = rememberEzCardNavController()
 
-            val mainViewModel: MainViewModel = hiltViewModel()
+            val viewModel: MainViewModel = hiltViewModel()
 
             val isSystemInDarkTheme = isSystemInDarkTheme()
+
             var isDarkTheme by remember {
                 mutableStateOf(isSystemInDarkTheme)
             }
 
+            val themeMode = viewModel.appThemeState.value
+
+//Keep splash screen on till theme is set from repository
+            splashScreen.setKeepOnScreenCondition { if (themeMode != null) false else true }
+
+            when (themeMode) {
+                ThemeMode.DARK -> isDarkTheme = true
+                ThemeMode.LIGHT -> isDarkTheme = false
+                else -> {}
+            }
+
 
             val currentRouteFlow by ezCardNavController.currentRouteFlow.collectAsState(initial = null)
-//            var shouldCancelCollection by remember { mutableStateOf(false) }
-
-
-//            DisposableEffect(shouldCancelCollection) {
-//                val job = Job()
-//                val scope = CoroutineScope(Dispatchers.Main + job)
-//
-//                // Launch a coroutine to collect the Flow with takeWhile
-//                scope.launch {
-//                    mainViewModel.isFirstLogin
-//                        .takeWhile { !shouldCancelCollection }
-//                        .collect { it ->
-//                            startDestination = if (it) {
-//                                MainDestinations.WELCOME_ROUTE
-//                            } else {
-//                                MainDestinations.LOGIN_ROUTE
-//                            }
-//                            shouldCancelCollection = true
-//                        }
-//                }
-//
-//                onDispose {
-//                    // Set shouldCancelCollection to true to stop the collection
-//                    shouldCancelCollection = true
-//                    // Don't forget to cancel the job and scope when the Composable is disposed
-//                    job.cancel()
-//                }
-//            }
 
             EzCardTheme(darkTheme = isDarkTheme) {
 
-                Scaffold(
-                    bottomBar = {
-                        if (currentRouteFlow == MainDestinations.HOME_ROUTE ||
-                            currentRouteFlow == MainDestinations.WALLET_ROUTE
-                            || currentRouteFlow == MainDestinations.SETTINGS_ROUTE
-                        ) {
-                            BottomNavBar(
-                                currentRoute = ezCardNavController.currentRoute,
-                                onNavItemClicked = { route ->
-                                    ezCardNavController.navigateToBottomBarRoute(
-                                        route
-                                    )
-                                })
-                        }
-                    }) {
+                Scaffold(bottomBar = {
+                    if (currentRouteFlow == MainDestinations.HOME_ROUTE || currentRouteFlow == MainDestinations.WALLET_ROUTE || currentRouteFlow == MainDestinations.SETTINGS_ROUTE) {
+                        BottomNavBar(currentRoute = ezCardNavController.currentRoute,
+                            onNavItemClicked = { route ->
+                                ezCardNavController.navigateToBottomBarRoute(
+                                    route
+                                )
+                            })
+                    }
+                }) {
 
                     NavHost(
                         modifier = Modifier.padding(it),
                         navController = ezCardNavController.navController,
                         startDestination = MainDestinations.LOGIN_ROUTE
                     ) {
-                        ezCardNavGraph(
-                            isDarkTheme,
+                        ezCardNavGraph(onThemeChange = { isDarkTheme = !isDarkTheme },
+                            isDarkTheme = isDarkTheme,
                             upPress = { ezCardNavController.upPress() },
                             onNavigateWithParams = { param, navBackStack, route ->
                                 ezCardNavController.navigateWithParam(
-                                    param = param,
-                                    from = navBackStack,
-                                    route = route
+                                    param = param, from = navBackStack, route = route
                                 )
                             },
                             onNavigateToSubScreen = { route, navBackStackEntry ->
                                 ezCardNavController.navigateToSubScreen(
-                                    route,
-                                    navBackStackEntry
+                                    route, navBackStackEntry
                                 )
-                            }
-                        ) { route, navBackStackEntry ->
+                            }) { route, navBackStackEntry ->
                             ezCardNavController.navigateAndPopAllBackStackEntries(
-                                route,
-                                navBackStackEntry
+                                route, navBackStackEntry
                             )
                         }
                     }

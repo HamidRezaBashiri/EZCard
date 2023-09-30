@@ -1,5 +1,7 @@
 package com.hamidrezabashiri.ezcard.di
 
+import com.hamidrezabashiri.ezcard.data.repository.app.AppConfigRepository
+import com.hamidrezabashiri.ezcard.data.repository.app.AppConfigRepositoryImpl
 import com.hamidrezabashiri.ezcard.data.repository.card.CardRepository
 import com.hamidrezabashiri.ezcard.data.repository.card.CardRepositoryImpl
 import com.hamidrezabashiri.ezcard.data.repository.user.UserRepository
@@ -19,5 +21,6 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideCardRepository(repositoryImpl: CardRepositoryImpl): CardRepository
 
-
+    @Binds
+    abstract fun provideAppConfigRepository(repositoryImpl: AppConfigRepositoryImpl): AppConfigRepository
 }
