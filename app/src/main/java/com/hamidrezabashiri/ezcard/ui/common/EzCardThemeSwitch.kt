@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.Grey100
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
 
 @Composable
@@ -56,7 +57,7 @@ fun EzCardThemeSwitch(
                 shape = RoundedCornerShape(24.dp) // Adjust the overall switch's rounded corners
             ), verticalAlignment = Alignment.CenterVertically
     ) {
-        val thumbColor = if (checked) MaterialTheme.colorScheme.primary else Grey200
+        val thumbColor = if (checked) MaterialTheme.colorScheme.primary else Grey100
 
         Box(contentAlignment = Alignment.CenterEnd,
             modifier = Modifier

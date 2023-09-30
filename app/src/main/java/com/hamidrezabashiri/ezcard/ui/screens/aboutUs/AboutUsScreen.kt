@@ -16,11 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamidrezabashiri.ezcard.R
@@ -59,7 +62,16 @@ fun AboutUsScreen(upPress: () -> Unit) {
                     .align(Alignment.CenterEnd)
                     .size(48.dp)
             ) {
+                val layoutDirection = LocalLayoutDirection.current
+
+                // Determine the rotation angle based on the layout direction
+                val rotationAngle = if (layoutDirection == LayoutDirection.Ltr) {
+                    180f
+                } else {
+                    0f // No rotation for RTL
+                }
                 Icon(
+                    modifier = Modifier.rotate(rotationAngle),
                     imageVector = ImageVector.vectorResource(R.drawable.chevron_left),
                     contentDescription = "back",
                     tint = Color.Unspecified

@@ -34,11 +34,12 @@
     <string name="card_info">اطلاعات کارت</string>
     <string name="settings">تنظیمات</string>
     <string name="change_password">تغییر رمز عبور</string>
-    <string name="chose_language">انتخاب زبان </string>
+    <string name="choose_language">انتخاب زبان </string>
     <string name="theme">تم برنامه</string>
     <string name="about_us">درباره ما</string>
     <string name="old_pass">رمز عبور فعلی</string>
     <string name="new_password">رمز عبور جدید</string>
     <string name="new_password_confirm">تکرار رمز عبور جدید</string>
+    <string name="enter_password_title">کلمه عبور خود را وارد کنید</string>
 
 </resources>

@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
@@ -45,6 +46,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +55,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -113,7 +116,16 @@ fun ChangePasswordScreen(
                     .align(Alignment.CenterEnd)
                     .size(48.dp)
             ) {
+                val layoutDirection = LocalLayoutDirection.current
+
+                // Determine the rotation angle based on the layout direction
+                val rotationAngle = if (layoutDirection == LayoutDirection.Ltr) {
+                    180f
+                } else {
+                    0f // No rotation for RTL
+                }
                 Icon(
+                    modifier = Modifier.rotate(rotationAngle),
                     imageVector = ImageVector.vectorResource(R.drawable.chevron_left),
                     contentDescription = "back",
                     tint = Color.Unspecified

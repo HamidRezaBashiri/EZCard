@@ -10,5 +10,8 @@ interface AppConfigRepository {
 
     suspend fun setAppTheme(themeMode: ThemeMode)
 
+    suspend fun setAppDefaultLanguage(languageTag: String)
+
+    fun getAppDefaultLanguageTag(): Flow<String>
 
 }

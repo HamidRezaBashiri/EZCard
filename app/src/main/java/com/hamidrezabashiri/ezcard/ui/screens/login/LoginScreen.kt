@@ -157,7 +157,7 @@ fun LoginScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 24.dp, bottom = 4.dp),
-                        text = "کلمه عبور خود را وارد کنید", textAlign = TextAlign.Start
+                        text = stringResource(R.string.enter_password_title), textAlign = TextAlign.Start
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -225,7 +225,7 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 24.sp
+                                fontSize = 22.sp
                             )
                         }
 
@@ -233,7 +233,7 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 24.sp
+                                fontSize = 22.sp
                             )
                             LaunchedEffect (isToastDisplayed) {
                                 isToastDisplayed = true
@@ -260,7 +260,7 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 24.sp
+                                fontSize = 22.sp
                             )
                         }
                     }

@@ -8,10 +8,12 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
@@ -34,12 +36,21 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel: MainViewModel = hiltViewModel()
+            val languageTag by rememberUpdatedState(newValue = viewModel.appLanguageState.value)
 
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("fa"))
+            if (languageTag != null) {
+                LaunchedEffect(key1 = languageTag) {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(
+                            languageTag
+                        )
+                    )
+                }
+            }
 
             val ezCardNavController = rememberEzCardNavController()
 
-            val viewModel: MainViewModel = hiltViewModel()
 
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
