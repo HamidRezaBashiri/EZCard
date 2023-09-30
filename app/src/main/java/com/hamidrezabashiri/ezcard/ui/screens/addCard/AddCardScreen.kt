@@ -68,8 +68,7 @@ import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue200
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
-import com.hamidrezabashiri.ezcard.utils.BankNameDetector
-import com.hamidrezabashiri.ezcard.utils.LoginState
+import com.hamidrezabashiri.ezcard.utils.ResponseState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +98,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
 
 
     var isErrorDisplayed by remember { mutableStateOf(false) }
-    val loginState by viewModel.loginState.collectAsState()
+    val loginState by viewModel.responseState.collectAsState()
 
 
     val nameFocusRequester = remember { FocusRequester() }
@@ -439,7 +438,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     }) {
 
                     when (loginState) {
-                        is LoginState.Success -> {
+                        is ResponseState.Success -> {
                             LaunchedEffect(Unit) {
                                 navigateUp.invoke()
 //                            TODO SHOW SUCCESS SCREEN AND NAVIGATE UP
@@ -451,7 +450,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             )
                         }
 
-                        is LoginState.Error -> {
+                        is ResponseState.Error -> {
                             Text(
                                 stringResource(R.string.confirm),
                                 textAlign = TextAlign.Center,
@@ -464,13 +463,13 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             if (!isErrorDisplayed) {
                                 Toast.makeText(
                                     LocalContext.current,
-                                    (loginState as LoginState.Error).errorMessage,
+                                    (loginState as ResponseState.Error).errorMessage,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
 
-                        is LoginState.Loading -> {
+                        is ResponseState.Loading -> {
                             CircularProgressIndicator(
                                 color = Color.White, modifier = Modifier
                                     .height(32.dp)

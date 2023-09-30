@@ -37,5 +37,8 @@
     <string name="chose_language">انتخاب زبان </string>
     <string name="theme">تم برنامه</string>
     <string name="about_us">درباره ما</string>
+    <string name="old_pass">رمز عبور فعلی</string>
+    <string name="new_password">رمز عبور جدید</string>
+    <string name="new_password_confirm">تکرار رمز عبور جدید</string>
 
 </resources>

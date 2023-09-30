@@ -181,7 +181,7 @@ fun ConfirmDeleteScreen(
 
                 Text(
                     text = stringResource(id = R.string.confirm),
-                    color = Color.White, fontSize = 24.sp
+                    color = Color.White, fontSize = 22.sp
 
                 )
             }
@@ -203,7 +203,7 @@ fun ConfirmDeleteScreen(
 
                 Text(
                     text = stringResource(id = R.string.cancel),
-                    color = MaterialTheme.colorScheme.primary, fontSize = 24.sp
+                    color = MaterialTheme.colorScheme.primary, fontSize = 22.sp
                 )
 
             }

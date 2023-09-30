@@ -23,7 +23,9 @@ object MainDestinations {
     const val SHARE_CARD_ROUTE = "shareCard"
     const val ADD_CARD_ROUTE = "addCard"
     const val WELCOME_ROUTE = "welcome_screen"
-    const val CONFIRM_DELETE="confirm_delete"
+    const val CONFIRM_DELETE_ROUTE="confirm_delete"
+    const val CHANGE_PASSWORD_ROUTE="change_password"
+    const val ABOUT_US_ROUTE="about_us"
 }
 
 /**

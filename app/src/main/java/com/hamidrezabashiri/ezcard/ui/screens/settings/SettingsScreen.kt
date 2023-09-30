@@ -41,7 +41,10 @@ import com.hamidrezabashiri.ezcard.ui.common.EzCardThemeSwitch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel(), onThemeChange: () -> Unit
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onThemeChange: () -> Unit,
+    navigateToChangePassword: () -> Unit,
+    navigateToAboutUs: () -> Unit
 ) {
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
@@ -114,7 +117,7 @@ fun SettingsScreen(
                 Color.LightGray
             )
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navigateToChangePassword.invoke() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
@@ -184,7 +187,9 @@ fun SettingsScreen(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 EzCardThemeSwitch(checked = isDarkTheme) { isDarkTheme ->
-                    if (isDarkTheme) viewModel.changeTheme(ThemeMode.DARK) else viewModel.changeTheme(ThemeMode.LIGHT)
+                    if (isDarkTheme) viewModel.changeTheme(ThemeMode.DARK) else viewModel.changeTheme(
+                        ThemeMode.LIGHT
+                    )
                     onThemeChange.invoke()
                 }
             }
@@ -195,7 +200,7 @@ fun SettingsScreen(
             )
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navigateToAboutUs.invoke() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),

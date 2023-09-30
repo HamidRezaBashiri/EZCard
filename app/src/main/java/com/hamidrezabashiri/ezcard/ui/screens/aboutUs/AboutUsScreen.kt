@@ -27,7 +27,7 @@ import com.hamidrezabashiri.ezcard.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutUsScreen() {
+fun AboutUsScreen(upPress: () -> Unit) {
     Scaffold(topBar = {
 
         Box(

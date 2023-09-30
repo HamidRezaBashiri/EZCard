@@ -60,13 +60,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
-import com.hamidrezabashiri.ezcard.utils.LoginState
+import com.hamidrezabashiri.ezcard.utils.ResponseState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: () -> Unit) {
 
-    val loginState by viewModel.loginState.collectAsState()
+    val loginState by viewModel.responseState.collectAsState()
 
     var passwordVisibility by remember { mutableStateOf(false) }
     val passwordFocusRequester = remember { FocusRequester() }
@@ -239,14 +239,14 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     }) {
 
                     when (loginState) {
-                        is LoginState.Success -> {
+                        is ResponseState.Success -> {
                             LaunchedEffect(Unit) {
                                 onSignUpSuccess.invoke()
                             }
                             Text(stringResource(R.string.login))
                         }
 
-                        is LoginState.Error -> {
+                        is ResponseState.Error -> {
                             Text(stringResource(R.string.login))
 
                             LaunchedEffect(isToastDisplayed) {
@@ -255,13 +255,13 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             if (!isToastDisplayed) {
                                 Toast.makeText(
                                     LocalContext.current,
-                                    (loginState as LoginState.Error).errorMessage,
+                                    (loginState as ResponseState.Error).errorMessage,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
 
-                        is LoginState.Loading -> {
+                        is ResponseState.Loading -> {
                             CircularProgressIndicator(
                                 color = Color.White, modifier = Modifier
                                     .height(32.dp)

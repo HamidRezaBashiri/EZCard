@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hamidrezabashiri.ezcard.data.dataModel.User
 import com.hamidrezabashiri.ezcard.data.repository.user.UserRepository
-import com.hamidrezabashiri.ezcard.utils.LoginState
+import com.hamidrezabashiri.ezcard.utils.ResponseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ class LoginViewModel @Inject constructor(
     val isFirstLogin: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[isFirstLoginKey] ?: true
     }
-    val loginState = MutableStateFlow<LoginState>(LoginState.Idle)
+    val responseState = MutableStateFlow<ResponseState>(ResponseState.Idle)
 
     var password by mutableStateOf("")
         private set
@@ -41,16 +41,16 @@ class LoginViewModel @Inject constructor(
     fun onLoginClicked() {
 
         viewModelScope.launch {
-            loginState.value = LoginState.Loading
+            responseState.value = ResponseState.Loading
             if (password.isEmpty()) {
-                loginState.value = LoginState.Error("لطفا پسورد را وارد کنید!")
+                responseState.value = ResponseState.Error("لطفا پسورد را وارد کنید!")
                 return@launch
             }
             val response = userRepository.loginUser(User(password = password))
             if (response) {
-                loginState.value = LoginState.Success("")
+                responseState.value = ResponseState.Success("")
             } else {
-                loginState.value = LoginState.Error("کلمه عبور صحیح نمی باشد!")
+                responseState.value = ResponseState.Error("کلمه عبور صحیح نمی باشد!")
             }
 
         }

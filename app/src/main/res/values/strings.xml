@@ -39,5 +39,9 @@
     <string name="theme">Theme</string>
     <string name="about_us">About us</string>
 
+    <string name="old_pass">Old password</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_confirm">New Password Repeat</string>
+
 
 </resources>

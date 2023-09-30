@@ -273,7 +273,7 @@ fun HomeScreen(
                                     navigateWithParam(
                                         it1,
                                         navBackStackEntry,
-                                        MainDestinations.CONFIRM_DELETE
+                                        MainDestinations.CONFIRM_DELETE_ROUTE
                                     )
                                 }
                             },

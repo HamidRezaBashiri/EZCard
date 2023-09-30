@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
 import com.hamidrezabashiri.ezcard.data.repository.card.CardRepository
-import com.hamidrezabashiri.ezcard.utils.LoginState
+import com.hamidrezabashiri.ezcard.utils.ResponseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class AddCardViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    val loginState = MutableStateFlow<LoginState>(LoginState.Idle)
+    val responseState = MutableStateFlow<ResponseState>(ResponseState.Idle)
 
     var fullName by mutableStateOf("")
         private set
@@ -73,13 +73,13 @@ class AddCardViewModel @Inject constructor(
     }
 
     fun addCard(creditCard: CreditCard) = viewModelScope.launch {
-        loginState.value = LoginState.Loading
+        responseState.value = ResponseState.Loading
 
         try {
             repository.insertCard(creditCard)
-            loginState.value = LoginState.Success("")
+            responseState.value = ResponseState.Success("")
         } catch (e: Exception) {
-            loginState.value = LoginState.Error("")
+            responseState.value = ResponseState.Error("")
         }
     }
 }

@@ -129,7 +129,7 @@ fun WalletScreen(
                             card.id?.let { it1 ->
                                 navigateToDeleteScreen(
                                     it1, navBackStackEntry,
-                                    MainDestinations.CONFIRM_DELETE
+                                    MainDestinations.CONFIRM_DELETE_ROUTE
                                 )
                             }
                         },

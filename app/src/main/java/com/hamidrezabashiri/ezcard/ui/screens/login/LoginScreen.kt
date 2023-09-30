@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
-import com.hamidrezabashiri.ezcard.utils.LoginState
+import com.hamidrezabashiri.ezcard.utils.ResponseState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -88,7 +87,7 @@ fun LoginScreen(
                 }
             }
 
-    val loginState by viewModel.loginState.collectAsState()
+    val loginState by viewModel.responseState.collectAsState()
 
     var passwordVisibility by remember { mutableStateOf(false) }
     val passwordFocusRequester = remember { FocusRequester() }
@@ -219,7 +218,7 @@ fun LoginScreen(
                     }) {
 
                     when (loginState) {
-                        is LoginState.Success -> {
+                        is ResponseState.Success -> {
                             LaunchedEffect(Unit) {
                                 onLoginSuccess.invoke()
                             }
@@ -230,7 +229,7 @@ fun LoginScreen(
                             )
                         }
 
-                        is LoginState.Error -> {
+                        is ResponseState.Error -> {
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
@@ -242,13 +241,13 @@ fun LoginScreen(
                             if (!isToastDisplayed) {
                                 Toast.makeText(
                                     LocalContext.current,
-                                    (loginState as LoginState.Error).errorMessage,
+                                    (loginState as ResponseState.Error).errorMessage,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
 
-                        is LoginState.Loading -> {
+                        is ResponseState.Loading -> {
                             CircularProgressIndicator(
                                 color = Color.White, modifier = Modifier
                                     .height(32.dp)
