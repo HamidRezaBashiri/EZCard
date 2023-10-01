@@ -29,6 +29,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
@@ -117,14 +118,26 @@ fun ConfirmDeleteScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { upPress.invoke() }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back icon",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 16.dp).size(34.dp)
-                    )
 
+                IconButton(
+                    onClick = { upPress.invoke() }, modifier = Modifier
+                        .padding(top = 16.dp)
+                        .size(48.dp)
+                ) {
+                    val layoutDirection = LocalLayoutDirection.current
+
+                    // Determine the rotation angle based on the layout direction
+                    val rotationAngle = if (layoutDirection == LayoutDirection.Ltr) {
+                        180f
+                    } else {
+                        0f // No rotation for RTL
+                    }
+                    Icon(
+                        modifier = Modifier.rotate(rotationAngle),
+                        imageVector = ImageVector.vectorResource(R.drawable.chevron_left),
+                        contentDescription = "back",
+                        tint = Color.Unspecified
+                    )
                 }
             }
             Image(

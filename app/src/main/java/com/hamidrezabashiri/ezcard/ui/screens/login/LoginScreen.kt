@@ -55,37 +55,35 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
-    onFirstLaunch: ()->Unit,
+    onFirstLaunch: () -> Unit,
 
     ) {
 
-            var shouldCancelCollection by remember { mutableStateOf(false) }
+    var shouldCancelCollection by remember { mutableStateOf(false) }
 
 
 
-            DisposableEffect(shouldCancelCollection) {
-                val job = Job()
-                val scope = CoroutineScope(Dispatchers.Main + job)
+    DisposableEffect(shouldCancelCollection) {
+        val job = Job()
+        val scope = CoroutineScope(Dispatchers.Main + job)
 
-                // Launch a coroutine to collect the Flow with takeWhile
-                scope.launch {
-                    viewModel.isFirstLogin
-                        .takeWhile { !shouldCancelCollection }
-                        .collect { it ->
-                            if (it){
-                                onFirstLaunch.invoke()
-                            }
-                            shouldCancelCollection = true
-                        }
+        // Launch a coroutine to collect the Flow with takeWhile
+        scope.launch {
+            viewModel.isFirstLogin.takeWhile { !shouldCancelCollection }.collect { it ->
+                if (it) {
+                    onFirstLaunch.invoke()
                 }
-
-                onDispose {
-                    // Set shouldCancelCollection to true to stop the collection
-                    shouldCancelCollection = true
-                    // Don't forget to cancel the job and scope when the Composable is disposed
-                    job.cancel()
-                }
+                shouldCancelCollection = true
             }
+        }
+
+        onDispose {
+            // Set shouldCancelCollection to true to stop the collection
+            shouldCancelCollection = true
+            // Don't forget to cancel the job and scope when the Composable is disposed
+            job.cancel()
+        }
+    }
 
     val loginState by viewModel.responseState.collectAsState()
 
@@ -136,7 +134,8 @@ fun LoginScreen(
                     textAlign = TextAlign.Center,
                     text = stringResource(R.string.hello_friend),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp, color = MaterialTheme.colorScheme.primary
+                    fontSize = 32.sp,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     textAlign = TextAlign.Center,
@@ -157,7 +156,8 @@ fun LoginScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 24.dp, bottom = 4.dp),
-                        text = stringResource(R.string.enter_password_title), textAlign = TextAlign.Start
+                        text = stringResource(R.string.enter_password_title),
+                        textAlign = TextAlign.Start
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -196,26 +196,23 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 32.dp)
-                        .background(
-                            Brush.linearGradient(
-                                colors = listOf(DarkBlue150, DarkBlue250),
-                                start = Offset(0f, 0f),
-                                end = Offset.Infinite,
-                            ), shape = RoundedCornerShape(16.dp)
-                        )
-                        .fillMaxWidth()
-                        .height(60.dp),
-                    onClick = {
-                        viewModel.onLoginClicked()
-                        isToastDisplayed = false
-                        isErrorDisplayed = true
-                    }) {
+                Button(colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                ), modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 32.dp)
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(DarkBlue150, DarkBlue250),
+                            start = Offset(0f, 0f),
+                            end = Offset.Infinite,
+                        ), shape = RoundedCornerShape(16.dp)
+                    )
+                    .fillMaxWidth()
+                    .height(60.dp), onClick = {
+                    viewModel.onLoginClicked()
+                    isToastDisplayed = false
+                    isErrorDisplayed = true
+                }) {
 
                     when (loginState) {
                         is ResponseState.Success -> {
@@ -235,7 +232,7 @@ fun LoginScreen(
                                 text = stringResource(id = R.string.login),
                                 fontSize = 22.sp
                             )
-                            LaunchedEffect (isToastDisplayed) {
+                            LaunchedEffect(isToastDisplayed) {
                                 isToastDisplayed = true
                             }
                             if (!isToastDisplayed) {

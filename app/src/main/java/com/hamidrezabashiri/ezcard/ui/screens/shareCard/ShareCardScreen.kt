@@ -1,6 +1,5 @@
 package com.hamidrezabashiri.ezcard.ui.screens.shareCard
 
-import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -42,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
@@ -63,7 +60,17 @@ fun ShareCardScreen(
     val card = viewModel.card
 
     val checkboxStates = viewModel.checkboxStates
-    val checkboxTexts = viewModel.checkboxTexts
+
+//    val checkboxTexts = viewModel.checkboxTexts
+    val checkboxTexts = listOf(
+        context.getString(R.string.card_holder_name),
+        context.getString(R.string.card_number),
+        context.getString(R.string.iban),
+        context.getString(R.string.account),
+        context.getString(R.string.expire_date),
+        context.getString(R.string.cvv2),
+    )
+
 
     LaunchedEffect(Unit) {
         if (cardId != null) {
@@ -129,7 +136,7 @@ fun ShareCardScreen(
                 })
 
             Text(
-                text = "اطلاعاتی که می خواهید به اشتراک بگذارید:",
+                text = stringResource(R.string.share_card_message),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -179,7 +186,7 @@ fun ShareCardScreen(
                 Text(
                     stringResource(R.string.send),
                     textAlign = TextAlign.Center,
-                    fontSize = 24.sp
+                    fontSize = 22.sp
                 )
             }
             Button(
@@ -206,7 +213,7 @@ fun ShareCardScreen(
                     text = stringResource(id = R.string.cancel),
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
-                    fontSize = 24.sp
+                    fontSize = 22.sp
                 )
 
             }

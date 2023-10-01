@@ -40,9 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -78,7 +75,6 @@ import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
 import kotlin.math.absoluteValue
 
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
@@ -86,38 +82,19 @@ fun HomeScreen(
     navigateToAddScreen: () -> Unit,
     navigateWithParam: (Int, NavBackStackEntry, String) -> Unit,
     navBackStackEntry: NavBackStackEntry,
-
-    ) {
-    val isSystemInDarkTheme = isSystemInDarkTheme()
-
-    var isDarkTheme by remember {
-        mutableStateOf(isSystemInDarkTheme)
-    }
+) {
+    val context = LocalContext.current
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val scrollState = rememberScrollState()
 
     val themeMode = viewModel.appThemeState.value
 
-
-    when (themeMode) {
-        ThemeMode.DARK -> isDarkTheme = true
-        ThemeMode.LIGHT -> isDarkTheme = false
-        else -> {}
-    }
-
-    val context = LocalContext.current
-
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
-    val pagerState = rememberPagerState(pageCount = {
-        cardList.size
-    })
+    val pagerState = rememberPagerState(pageCount = { cardList.size })
 
-    var creditCard by remember {
-        mutableStateOf(CreditCard())
-    }
+    val creditCard = cardList.getOrNull(pagerState.currentPage) ?: CreditCard()
 
-    if (cardList.isNotEmpty()) {
-        creditCard = cardList[pagerState.currentPage]
-    }
-
+    // Update ViewModel with credit card details
     viewModel.onFullNameChanged(creditCard.cardHolderName)
     viewModel.onCardNumberChanged(creditCard.cardNumber)
     viewModel.onIbanChanged(creditCard.iban)
@@ -125,13 +102,14 @@ fun HomeScreen(
     viewModel.onDateYearChanged(creditCard.expirationDate)
     viewModel.onCvv2Changed(creditCard.cvv2)
 
-    val clipboardManager: ClipboardManager = LocalClipboardManager.current
-
-    val scrollState = rememberScrollState()
-
+    val isDarkTheme = when (themeMode) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        null -> isSystemInDarkTheme()
+    }
     val backgroundVector =
         if (isDarkTheme) R.drawable.guy_holding_card_dark else R.drawable.guy_holding_card_illustration
-
     val fabVector =
         if (cardList.isEmpty()) Icons.Default.Add else ImageVector.vectorResource(id = R.drawable.icon__share_)
 
@@ -141,18 +119,15 @@ fun HomeScreen(
                 if (cardList.isEmpty()) {
                     navigateToAddScreen.invoke()
                 } else {
-                    cardList[pagerState.currentPage].id?.let { it1 ->
+                    cardList.getOrNull(pagerState.currentPage)?.id?.let { cardId ->
                         navigateWithParam(
-                            it1,
-                            navBackStackEntry,
-                            MainDestinations.SHARE_CARD_ROUTE
+                            cardId, navBackStackEntry, MainDestinations.SHARE_CARD_ROUTE
                         )
                     }
                 }
             },
             containerColor = DarkBlue150,
-
-            ) {
+        ) {
             Icon(
                 imageVector = fabVector,
                 contentDescription = "fab",
@@ -160,22 +135,17 @@ fun HomeScreen(
                 modifier = Modifier.size(32.dp)
             )
         }
-
     }, modifier = Modifier.fillMaxSize()) {
 
         Box {
-//        Blurred Background
+            // Blurred Background
             Box(
                 modifier = Modifier
                     .padding(it)
                     .fillMaxSize()
                     .graphicsLayer(
-                        // Create a BlurEffect with a horizontal radius of 10f, vertical radius of 5f,
-                        // and using CLAMP edge treatment.
                         renderEffect = BlurEffect(
-                            radiusX = 60f,
-                            radiusY = 30f,
-                            edgeTreatment = TileMode.Clamp
+                            radiusX = 60f, radiusY = 30f, edgeTreatment = TileMode.Clamp
                         )
                     )
             ) {
@@ -185,8 +155,7 @@ fun HomeScreen(
                             .size(430.dp)
                             .offset((-40).dp, (-240).dp)
                             .background(
-                                color = Blue200Transparent,
-                                CircleShape
+                                color = Blue200Transparent, CircleShape
                             )
                     )
                     Box(
@@ -194,12 +163,9 @@ fun HomeScreen(
                             .size(320.dp)
                             .offset((100).dp, (-180).dp)
                             .background(
-                                color = Blue200Transparent,
-                                CircleShape
+                                color = Blue200Transparent, CircleShape
                             )
-
                     )
-
                 }
             }
 
@@ -210,12 +176,14 @@ fun HomeScreen(
                         .size(130.dp)
                         .padding(top = 48.dp),
                     imageVector = ImageVector.vectorResource(R.drawable.logo_dark),
-                    contentDescription = "logo", tint = Color.Unspecified
+                    contentDescription = "logo",
+                    tint = Color.Unspecified
                 )
                 Icon(
                     modifier = Modifier.align(Alignment.Center),
                     imageVector = ImageVector.vectorResource(backgroundVector),
-                    contentDescription = "background", tint = Color.Unspecified
+                    contentDescription = "background",
+                    tint = Color.Unspecified
                 )
 
                 Column(
@@ -234,44 +202,30 @@ fun HomeScreen(
                         color = Grey200
                     )
                     Text(text = stringResource(R.string.at_the_bottom_of_screen), color = Grey200)
-
                 }
             } else {
-
-
-                // Get the device configuration
-                val configuration = LocalConfiguration.current
-
-                // Get the screen width in pixels
+                // Render card pager UI
                 val screenWidthInPixels = with(LocalDensity.current) {
-                    configuration.screenWidthDp.dp
+                    LocalConfiguration.current.screenWidthDp.dp
                 }
-                // Calculate the desired width (e.g., 90% of the screen width)
                 val cardWidth = (screenWidthInPixels * 0.9f)
-
-
 
                 Column() {
                     HorizontalPager(
                         beyondBoundsPageCount = 1,
                         pageSize = PageSize.Fixed(cardWidth),
-                        state = pagerState, modifier = Modifier
+                        state = pagerState,
+                        modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         contentPadding = PaddingValues(end = 24.dp, start = 22.dp)
-
                     ) {
-
-                        CardItem(
-                            modifier = Modifier
-                                .width(cardWidth)
-//                            .offset((-24).dp)
-                            ,
+                        CardItem(modifier = Modifier.width(cardWidth),
                             card = cardList[it],
                             onDeleteClicked = {
-                                cardList[it].id?.let { it1 ->
+                                cardList[it].id?.let { cardId ->
                                     navigateWithParam(
-                                        it1,
+                                        cardId,
                                         navBackStackEntry,
                                         MainDestinations.CONFIRM_DELETE_ROUTE
                                     )
@@ -284,7 +238,6 @@ fun HomeScreen(
                                     )
                                 )
                             })
-
                     }
 
                     Row(
@@ -294,19 +247,12 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         repeat(pagerState.pageCount) { iteration ->
-
-                            // Function to calculate the alpha based on the current page and iteration
                             val maxAlpha = 1.0f
                             val minAlpha = 0f
-
                             val alphaDifference = maxAlpha - minAlpha
-
                             val distance = (pagerState.currentPage - iteration).absoluteValue
-
-                            // Calculate alpha based on distance from current page
                             val alpha =
                                 maxAlpha - (alphaDifference / pagerState.pageCount) * distance
-
 
                             var color =
                                 if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
@@ -320,8 +266,6 @@ fun HomeScreen(
                                     .clip(CircleShape)
                                     .background(color.copy(alpha))
                                     .size(5.dp)
-
-
                             )
                         }
                     }
@@ -342,171 +286,38 @@ fun HomeScreen(
                             .verticalScroll(state = scrollState)
                             .padding(bottom = 64.dp)
                     ) {
+                        RowWithCopyButton(label = stringResource(R.string.card_number),
+                            text = viewModel.cardNumber,
+                            onCopyClicked = {
+                                showToast(context)
+                                clipboardManager.setText(AnnotatedString(viewModel.cardNumber))
+                            })
 
+                        RowWithCopyButton(label = stringResource(R.string.full_name),
+                            text = viewModel.fullName,
+                            onCopyClicked = {
+                                showToast(context)
+                                clipboardManager.setText(AnnotatedString(viewModel.fullName))
+                            })
 
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
-                                text = stringResource(R.string.card_number),
-                                textAlign = TextAlign.Start,
-                                color = DarkBlue150
-                            )
-                        }
-                        OutlinedTextField(
-                            shape = RoundedCornerShape(16.dp),
-                            value = viewModel.cardNumber,
-                            onValueChange = {},
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colorScheme.primary
-                            ),
-                            singleLine = true,
-                            maxLines = 1,
-                            readOnly = true,
-                            trailingIcon = {
-                                IconButton(onClick = {
-                                    showToast(context)
-                                    clipboardManager.setText(AnnotatedString(viewModel.cvv2))
-                                }) {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(R.drawable.copy),
-                                        contentDescription = "copy button",
-                                        tint = Color.Unspecified
-                                    )
-                                }
-                            }
+                        RowWithCopyButton(label = stringResource(R.string.iban),
+                            text = viewModel.iban,
+                            onCopyClicked = {
+                                showToast(context)
+                                clipboardManager.setText(AnnotatedString(viewModel.iban))
+                            })
 
-                        )
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
-                                text = stringResource(R.string.full_name),
-                                textAlign = TextAlign.Start,
-                                color = DarkBlue150
-                            )
-                        }
-
-                        OutlinedTextField(
-                            shape = RoundedCornerShape(16.dp),
-                            value = viewModel.fullName,
-                            onValueChange = {},
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            singleLine = true,
-                            maxLines = 1,
-                            readOnly = true,
-                            trailingIcon = {
-                                IconButton(onClick = {
-                                    showToast(context)
-                                    clipboardManager.setText(AnnotatedString(viewModel.cvv2))
-                                }) {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(R.drawable.copy),
-                                        contentDescription = "copy button",
-                                        tint = Color.Unspecified
-                                    )
-                                }
-                            }
-
-                        )
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
-                                text = stringResource(R.string.iban),
-                                textAlign = TextAlign.Start,
-                                color = DarkBlue150
-                            )
-                        }
-                        OutlinedTextField(
-
-                            shape = RoundedCornerShape(16.dp),
-                            value = viewModel.iban,
-                            onValueChange = {},
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            singleLine = true,
-                            maxLines = 1,
-                            readOnly = true,
-                            trailingIcon = {
-                                IconButton(onClick = {
-                                    showToast(context)
-                                    clipboardManager.setText(AnnotatedString(viewModel.cvv2))
-                                }) {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(R.drawable.copy),
-                                        contentDescription = "copy button",
-                                        tint = Color.Unspecified
-                                    )
-                                }
-                            }
-                        )
-
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
-                                text = stringResource(R.string.account),
-                                textAlign = TextAlign.Start,
-                                color = DarkBlue150
-                            )
-                        }
-                        OutlinedTextField(
-                            shape = RoundedCornerShape(16.dp),
-                            value = viewModel.accountNumber,
-                            onValueChange = {},
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            singleLine = true,
-                            maxLines = 1,
-                            readOnly = true,
-                            trailingIcon = {
-                                IconButton(onClick = {
-                                    showToast(context)
-                                    clipboardManager.setText(AnnotatedString(viewModel.cvv2))
-                                }) {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(R.drawable.copy),
-                                        contentDescription = "copy button",
-                                        tint = Color.Unspecified
-                                    )
-                                }
-                            }
-
-                        )
+                        RowWithCopyButton(label = stringResource(R.string.account),
+                            text = viewModel.accountNumber,
+                            onCopyClicked = {
+                                showToast(context)
+                                clipboardManager.setText(AnnotatedString(viewModel.accountNumber))
+                            })
 
                         Row(Modifier.fillMaxWidth()) {
                             Column {
                                 Row(
-                                    Modifier
-                                        .padding(top = 16.dp)
+                                    Modifier.padding(top = 16.dp)
                                 ) {
                                     Text(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
@@ -516,45 +327,37 @@ fun HomeScreen(
                                     )
                                 }
 
-                                Row {
-                                    OutlinedTextField(
-
-                                        shape = RoundedCornerShape(16.dp),
-                                        value = viewModel.dateYear,
-                                        onValueChange = {},
-                                        modifier = Modifier
-                                            .padding(start = 16.dp, end = 8.dp)
-                                            .width(164.dp),
-                                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                                            unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-                                        ),
-                                        singleLine = true,
-                                        maxLines = 1,
-                                        readOnly = true,
-                                        trailingIcon = {
-                                            IconButton(onClick = {
-                                                showToast(context)
-                                                clipboardManager.setText(AnnotatedString(viewModel.cvv2))
-                                            }) {
-                                                Icon(
-                                                    imageVector = ImageVector.vectorResource(R.drawable.copy),
-                                                    contentDescription = "copy button",
-                                                    tint = Color.Unspecified
-                                                )
-                                            }
+                                OutlinedTextField(shape = RoundedCornerShape(16.dp),
+                                    value = viewModel.dateYear,
+                                    onValueChange = {},
+                                    modifier = Modifier
+                                        .padding(start = 16.dp, end = 8.dp)
+                                        .width(164.dp),
+                                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                                        unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                                    ),
+                                    singleLine = true,
+                                    maxLines = 1,
+                                    readOnly = true,
+                                    trailingIcon = {
+                                        IconButton(onClick = {
+                                            showToast(context)
+                                            clipboardManager.setText(AnnotatedString(viewModel.dateYear))
+                                        }) {
+                                            Icon(
+                                                imageVector = ImageVector.vectorResource(R.drawable.copy),
+                                                contentDescription = "copy button",
+                                                tint = Color.Unspecified
+                                            )
                                         }
-
-
-                                    )
-                                }
+                                    })
                             }
 
                             Spacer(modifier = Modifier.weight(1f))
 
                             Column {
                                 Row(
-                                    Modifier
-                                        .padding(top = 16.dp)
+                                    Modifier.padding(top = 16.dp)
                                 ) {
                                     Text(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
@@ -564,8 +367,11 @@ fun HomeScreen(
                                     )
                                 }
 
-                                OutlinedTextField(
-                                    placeholder = { Text(text = "cvv2", fontSize = 10.sp) },
+                                OutlinedTextField(placeholder = {
+                                    Text(
+                                        text = "cvv2", fontSize = 10.sp
+                                    )
+                                },
                                     shape = RoundedCornerShape(16.dp),
                                     value = viewModel.cvv2,
                                     onValueChange = {},
@@ -589,27 +395,60 @@ fun HomeScreen(
                                                 tint = Color.Unspecified
                                             )
                                         }
-                                    }
-                                )
+                                    })
                             }
                         }
-
-
                     }
 
+
                 }
-
-
             }
-
-
         }
-
-
     }
-
 }
 
+@Composable
 fun showToast(context: Context) {
     Toast.makeText(context, "در کلیپ برد کپی شد!", Toast.LENGTH_SHORT).show()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RowWithCopyButton(
+    label: String, text: String, onCopyClicked: () -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
+            text = label,
+            textAlign = TextAlign.Start,
+            color = DarkBlue150
+        )
+    }
+
+    OutlinedTextField(shape = RoundedCornerShape(16.dp),
+        value = text,
+        onValueChange = {},
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+        ),
+        singleLine = true,
+        maxLines = 1,
+        readOnly = true,
+        trailingIcon = {
+            IconButton(onClick = onCopyClicked) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.copy),
+                    contentDescription = "copy button",
+                    tint = Color.Unspecified
+                )
+            }
+        })
 }

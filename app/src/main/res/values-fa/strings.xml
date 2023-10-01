@@ -41,5 +41,13 @@
     <string name="new_password">رمز عبور جدید</string>
     <string name="new_password_confirm">تکرار رمز عبور جدید</string>
     <string name="enter_password_title">کلمه عبور خود را وارد کنید</string>
+    <string name="ui_ux_designer_zohreh_bashiri">طراح رابط و تجربه کاربر :زهره بشیری</string>
+    <string name="developer_about_us">توسعه دهنده: حمیدرضا بشیری</string>
+    <string name="about_us_thanks">دوست خوبم ممنون که مارو انتخاب کردی</string>
+    <string name="about_us_message">خوشحال میشیم نظراتتون را با ما در میون بگذارید</string>
+    <string name="contacts_way">راه های ارتباط با ما</string>
+    <string name="expire_date">تاریخ انقضا</string>
+    <string name="share_card_message">اطلاعاتی که می خواهید به اشتراک بگذارید:</string>
+    <string name="card_holder_name">نام صاحب کارت</string>
 
 </resources>

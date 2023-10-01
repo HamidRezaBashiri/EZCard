@@ -243,12 +243,18 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             LaunchedEffect(Unit) {
                                 onSignUpSuccess.invoke()
                             }
-                            Text(stringResource(R.string.login))
-                        }
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 22.sp
+                            )                        }
 
                         is ResponseState.Error -> {
-                            Text(stringResource(R.string.login))
-
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 22.sp
+                            )
                             LaunchedEffect(isToastDisplayed) {
                                 isToastDisplayed = true
                             }
@@ -271,8 +277,11 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                         }
 
                         else -> {
-                            Text("ورود")
-                        }
+                            Text(
+                                textAlign = TextAlign.Center,
+                                text = stringResource(id = R.string.login),
+                                fontSize = 22.sp
+                            )                        }
                     }
 
 //                Text(text = stringResource(R.string.login))

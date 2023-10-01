@@ -203,7 +203,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                 }
 
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_card_owner_full_name), fontSize = 10.sp) },
+                    placeholder = { Text(text = stringResource(R.string.please_enter_card_owner_full_name), fontSize = 12.sp) },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
@@ -236,7 +236,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_card_number), fontSize = 10.sp) },
+                    placeholder = { Text(text = stringResource(R.string.please_enter_card_number), fontSize = 12.sp) },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
@@ -268,7 +268,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_your_iban_number), fontSize = 10.sp) },
+                    placeholder = { Text(text = stringResource(R.string.please_enter_your_iban_number), fontSize = 12.sp) },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
@@ -301,7 +301,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_your_account_number), fontSize = 10.sp) },
+                    placeholder = { Text(text = stringResource(R.string.please_enter_your_account_number), fontSize = 12.sp) },
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.accountNumber,
@@ -336,7 +336,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
 
                         Row {
                             OutlinedTextField(
-                                placeholder = { Text(text = stringResource(R.string.month), fontSize = 10.sp) },
+                                placeholder = { Text(text = stringResource(R.string.month), fontSize = 12.sp) },
 
                                 isError = isErrorDisplayed,
                                 shape = RoundedCornerShape(16.dp),
@@ -356,7 +356,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 keyboardActions = KeyboardActions(onNext = { dateYearFocusRequester.requestFocus() }),
                             )
                             OutlinedTextField(
-                                placeholder = { Text(text = stringResource(R.string.year), fontSize = 10.sp) },
+                                placeholder = { Text(text = stringResource(R.string.year), fontSize = 12.sp) },
                                 isError = isErrorDisplayed,
                                 shape = RoundedCornerShape(16.dp),
                                 value = viewModel.dateYear,
@@ -392,7 +392,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         }
 
                         OutlinedTextField(
-                            placeholder = { Text(text = "cvv2", fontSize = 10.sp) },
+                            placeholder = { Text(text = "cvv2", fontSize = 12.sp) },
                             isError = isErrorDisplayed,
                             shape = RoundedCornerShape(16.dp),
                             value = viewModel.cvv2,
@@ -483,7 +483,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             Text(
                                 stringResource(R.string.confirm),
                                 textAlign = TextAlign.Center,
-                                fontSize = 24.sp
+                                fontSize = 22.sp
                             )
                         }
                     }
@@ -512,7 +512,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         text = stringResource(id = R.string.cancel),
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
-                        fontSize = 24.sp
+                        fontSize = 22.sp
                     )
 
                 }

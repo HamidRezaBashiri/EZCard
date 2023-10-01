@@ -52,7 +52,8 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onThemeChange: () -> Unit,
     navigateToChangePassword: () -> Unit,
-    navigateToAboutUs: () -> Unit
+    navigateToAboutUs: () -> Unit,
+    upPress: () -> Unit
 ) {
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
@@ -105,7 +106,7 @@ fun SettingsScreen(
             )
 
             IconButton(
-                onClick = { /*TODO*/ }, modifier = Modifier
+                onClick = { upPress.invoke() }, modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .size(48.dp)
             ) {

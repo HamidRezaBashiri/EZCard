@@ -53,6 +53,7 @@ fun NavGraphBuilder.ezCardNavGraph(
     composable(route = MainDestinations.SETTINGS_ROUTE) {
 
         SettingsScreen(
+            upPress=upPress,
             onThemeChange = onThemeChange,
             navigateToChangePassword = {
                 onNavigateToSubScreen(

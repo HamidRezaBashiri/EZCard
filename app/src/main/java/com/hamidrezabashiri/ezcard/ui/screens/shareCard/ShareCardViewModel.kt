@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
 import com.hamidrezabashiri.ezcard.data.repository.card.CardRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,8 @@ class ShareCardViewModel @Inject constructor(private val cardRepository: CardRep
         "تاریخ",
         "CVV2"
     )
+
+
 
     fun getCardById(id: Int) {
         viewModelScope.launch {
@@ -59,7 +62,7 @@ class ShareCardViewModel @Inject constructor(private val cardRepository: CardRep
             }
         }
 
-        return checkedItems.joinToString("\n\n")
+        return checkedItems.joinToString("\n")
     }
 
     fun shareMessage(context: Context, message: String) {
