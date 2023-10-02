@@ -43,6 +43,7 @@ fun CardItem(
     onDeleteClicked: () -> Unit,
     onCopyToClipBoard: (String) -> Unit,
     modifier: Modifier = Modifier,
+    isEditable:Boolean
 ) {
     val context = LocalContext.current
 
@@ -117,18 +118,21 @@ fun CardItem(
                         .height(36.dp),
                     verticalAlignment = Alignment.Top
                 ) {
+                    if (isEditable){
+                        IconButton(onClick = { onDeleteClicked.invoke() }) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.trash),
+                                contentDescription = "delete btn",
+                                tint = Color.Unspecified,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .align(Alignment.CenterVertically)
 
-                    IconButton(onClick = { onDeleteClicked.invoke() }) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.trash),
-                            contentDescription = "delete btn",
-                            tint = Color.Unspecified,
-                            modifier = Modifier
-                                .size(32.dp)
-                                .align(Alignment.CenterVertically)
+                            )
+                        }
 
-                        )
                     }
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

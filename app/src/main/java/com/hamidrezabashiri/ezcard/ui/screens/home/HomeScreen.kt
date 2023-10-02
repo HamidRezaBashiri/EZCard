@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -71,8 +72,11 @@ import com.hamidrezabashiri.ezcard.ui.common.drawVerticalScrollbar
 import com.hamidrezabashiri.ezcard.ui.common.showToast
 import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.BodyTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -87,7 +91,6 @@ fun HomeScreen(
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val scrollState = rememberScrollState()
 
-    val themeMode = viewModel.appThemeState.value
 
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
     val pagerState = rememberPagerState(pageCount = { cardList.size })
@@ -102,7 +105,7 @@ fun HomeScreen(
     viewModel.onDateYearChanged(creditCard.expirationDate)
     viewModel.onCvv2Changed(creditCard.cvv2)
 
-    val isDarkTheme = when (themeMode) {
+    val isDarkTheme = when (viewModel.appThemeState.value) {
         ThemeMode.LIGHT -> false
         ThemeMode.DARK -> true
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
@@ -194,14 +197,14 @@ fun HomeScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.there_is_no_card_to_show),
-                        fontSize = 24.sp,
+                        fontSize = HeadLineTextSize, fontWeight = FontWeight.Medium,
                         color = DarkBlue150
                     )
                     Text(
                         text = stringResource(R.string.to_add_new_card_press_plus_button),
-                        color = Grey200
+                        color = Grey200, fontSize = BodyTextSize
                     )
-                    Text(text = stringResource(R.string.at_the_bottom_of_screen), color = Grey200)
+                    Text(text = stringResource(R.string.at_the_bottom_of_screen), color = Grey200, fontSize = BodyTextSize)
                 }
             } else {
                 // Render card pager UI
@@ -220,7 +223,8 @@ fun HomeScreen(
                             .padding(top = 16.dp),
                         contentPadding = PaddingValues(end = 24.dp, start = 22.dp)
                     ) {
-                        CardItem(modifier = Modifier.width(cardWidth),
+                        CardItem(
+                            modifier = Modifier.width(cardWidth),
                             card = cardList[it],
                             onDeleteClicked = {
                                 cardList[it].id?.let { cardId ->
@@ -237,7 +241,8 @@ fun HomeScreen(
                                         string
                                     )
                                 )
-                            })
+                            }, isEditable = true
+                        )
                     }
 
                     Row(
@@ -272,7 +277,8 @@ fun HomeScreen(
 
                     Text(
                         text = stringResource(R.string.card_info),
-                        fontSize = 24.sp,
+                        fontSize = HeadLineTextSize,
+                        fontWeight = FontWeight.Medium,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
@@ -323,7 +329,7 @@ fun HomeScreen(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                         text = stringResource(R.string.date),
                                         textAlign = TextAlign.Start,
-                                        color = DarkBlue150
+                                        color = DarkBlue150, fontSize = OutlinedTextFieldTitleTextSize
                                     )
                                 }
 
@@ -363,7 +369,7 @@ fun HomeScreen(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                         text = stringResource(R.string.cvv2),
                                         textAlign = TextAlign.Start,
-                                        color = DarkBlue150
+                                        color = DarkBlue150, fontSize = OutlinedTextFieldTitleTextSize
                                     )
                                 }
 
@@ -426,7 +432,7 @@ fun RowWithCopyButton(
             modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
             text = label,
             textAlign = TextAlign.Start,
-            color = DarkBlue150
+            color = DarkBlue150, fontSize = OutlinedTextFieldTitleTextSize
         )
     }
 

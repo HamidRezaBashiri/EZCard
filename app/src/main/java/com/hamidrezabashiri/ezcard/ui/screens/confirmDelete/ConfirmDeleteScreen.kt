@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.Red500
 
 
@@ -148,7 +151,10 @@ fun ConfirmDeleteScreen(
                 alignment = Alignment.TopCenter
             )
 
-            CardItem(modifier = Modifier.fillMaxWidth(), card = card.value,
+            CardItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp), card = card.value,
                 onDeleteClicked = { },
                 onCopyToClipBoard = { string ->
                     clipboardManager.setText(
@@ -156,18 +162,19 @@ fun ConfirmDeleteScreen(
                             string
                         )
                     )
-                })
+                }, isEditable = false
+            )
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
                 text = stringResource(R.string.do_you_want_to_delete_above_card),
-                fontSize = 24.sp,
+                fontSize = HeadLineTextSize,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
-                lineHeight = 36.sp
+                lineHeight = 36.sp, fontWeight = FontWeight.Medium
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -194,7 +201,7 @@ fun ConfirmDeleteScreen(
 
                 Text(
                     text = stringResource(id = R.string.confirm),
-                    color = Color.White, fontSize = 22.sp
+                    color = Color.White, fontSize = ButtonTextSize
 
                 )
             }
@@ -216,7 +223,7 @@ fun ConfirmDeleteScreen(
 
                 Text(
                     text = stringResource(id = R.string.cancel),
-                    color = MaterialTheme.colorScheme.primary, fontSize = 22.sp
+                    color = MaterialTheme.colorScheme.primary, fontSize = ButtonTextSize
                 )
 
             }

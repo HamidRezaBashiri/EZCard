@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -44,8 +45,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 
 @Composable
 fun ShareCardScreen(
@@ -121,10 +124,11 @@ fun ShareCardScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                .padding( top = 16.dp)
         ) {
 
             CardItem(
+                modifier = Modifier.padding(horizontal = 8.dp),
                 card = card.value,
                 onDeleteClicked = { /*TODO*/ },
                 onCopyToClipBoard = { string ->
@@ -133,7 +137,7 @@ fun ShareCardScreen(
                             string
                         )
                     )
-                })
+                }, isEditable = false)
 
             Text(
                 text = stringResource(R.string.share_card_message),
@@ -141,12 +145,13 @@ fun ShareCardScreen(
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Start,
-                fontSize = 24.sp
+                fontSize = HeadLineTextSize,
+                fontWeight = FontWeight.Medium
             )
 
             checkboxTexts.forEachIndexed { index, text ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -186,7 +191,8 @@ fun ShareCardScreen(
                 Text(
                     stringResource(R.string.send),
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = ButtonTextSize
+                    , color = Color.White
                 )
             }
             Button(
@@ -213,7 +219,7 @@ fun ShareCardScreen(
                     text = stringResource(id = R.string.cancel),
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = ButtonTextSize
                 )
 
             }

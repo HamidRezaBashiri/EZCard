@@ -60,8 +60,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import com.hamidrezabashiri.ezcard.utils.ResponseState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,8 +100,8 @@ fun ChangePasswordScreen(
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
                 text = stringResource(R.string.change_password),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = HeadLineTextSize,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -142,7 +145,6 @@ fun ChangePasswordScreen(
 
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -157,7 +159,7 @@ fun ChangePasswordScreen(
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.old_pass),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -198,7 +200,7 @@ fun ChangePasswordScreen(
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.new_password),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.passwordConfirmation.isEmpty(),
@@ -206,7 +208,7 @@ fun ChangePasswordScreen(
                     value = viewModel.newPassword,
                     onValueChange = viewModel::onNewPasswordChanged,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp).padding(bottom = 8.dp)
                         .fillMaxWidth()
                         .focusRequester(newPasswordFocusRequester),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -240,7 +242,7 @@ fun ChangePasswordScreen(
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.password_confirmation),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.passwordConfirmation.isEmpty(),
@@ -284,7 +286,7 @@ fun ChangePasswordScreen(
                 Button(colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                 ), modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 32.dp)
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
                     .background(
                         Brush.linearGradient(
                             colors = listOf(DarkBlue150, DarkBlue250),
@@ -309,13 +311,13 @@ fun ChangePasswordScreen(
                                 ).show()
                             }
                             Text(
-                                stringResource(R.string.confirm), fontSize = 22.sp
+                                stringResource(R.string.confirm), fontSize = ButtonTextSize
                             )
                         }
 
                         is ResponseState.Error -> {
                             Text(
-                                stringResource(R.string.confirm), fontSize = 22.sp
+                                stringResource(R.string.confirm), fontSize = ButtonTextSize
                             )
 
                             LaunchedEffect(isToastDisplayed) {
@@ -341,7 +343,7 @@ fun ChangePasswordScreen(
 
                         else -> {
                             Text(
-                                stringResource(R.string.confirm), fontSize = 22.sp
+                                stringResource(R.string.confirm), fontSize = ButtonTextSize
                             )
                         }
                     }
@@ -355,7 +357,7 @@ fun ChangePasswordScreen(
                         containerColor = MaterialTheme.colorScheme.surface,
                     ),
                     modifier = Modifier
-                        .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                        .padding(bottom = 32.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth()
                         .height(60.dp),
                     onClick = {
@@ -365,7 +367,7 @@ fun ChangePasswordScreen(
                     Text(
                         text = stringResource(id = R.string.cancel),
                         color = MaterialTheme.colorScheme.primary,
-                        fontSize = 22.sp
+                        fontSize = ButtonTextSize
                     )
 
                 }

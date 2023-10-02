@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -65,9 +66,12 @@ import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.common.drawVerticalScrollbar
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue200
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import com.hamidrezabashiri.ezcard.utils.ResponseState
 
 
@@ -80,7 +84,11 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
     val creditCard by remember { mutableStateOf(CreditCard()) }
     creditCard.cardHolderName = viewModel.fullName
     creditCard.cardNumber = viewModel.cardNumber
-    creditCard.iban = viewModel.iban
+    creditCard.iban = when {
+        viewModel.iban.isEmpty() -> "IR"
+        !viewModel.iban.startsWith("IR") -> "IR${viewModel.iban}"
+        else -> viewModel.iban
+    }
     creditCard.accountNumber = viewModel.accountNumber
     creditCard.cvv2 = viewModel.cvv2
     val year = viewModel.dateYear
@@ -94,7 +102,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
     }
 
     creditCard.expirationDate = expirationDate
-    creditCard.bankName =viewModel.bankNameDetector.detectBank(creditCard.cardNumber)
+    creditCard.bankName = viewModel.bankNameDetector.detectBank(creditCard.cardNumber)
 
 
     var isErrorDisplayed by remember { mutableStateOf(false) }
@@ -158,10 +166,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
         ) {
 
             CardItem(
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 16.dp),
                 card = creditCard,
                 onDeleteClicked = { /*TODO*/ },
                 onCopyToClipBoard = { string ->
@@ -170,7 +178,8 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             string
                         )
                     )
-                })
+                }, isEditable = false
+            )
 
             Text(
                 textAlign = TextAlign.Center,
@@ -178,7 +187,9 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     .fillMaxWidth()
                     .padding(16.dp),
                 text = stringResource(R.string.please_enter_your_info),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = HeadLineTextSize,
+                fontWeight = FontWeight.Medium
             )
 
 
@@ -198,17 +209,26 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                         text = stringResource(R.string.full_name),
                         textAlign = TextAlign.Start,
-                        color = DarkBlue200
+                        color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
 
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_card_owner_full_name), fontSize = 12.sp) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.please_enter_card_owner_full_name),
+                            fontSize = 14.sp
+                        )
+                    },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.fullName,
-                    onValueChange = viewModel::onFullNameChanged,
+                    onValueChange = {
+                        if (it.length <= 70) {
+                            viewModel.onFullNameChanged(it)
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp)
@@ -219,7 +239,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text , imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next
+                    ),
                     keyboardActions = KeyboardActions(onNext = { cardNumFocusRequester.requestFocus() }),
                 )
 
@@ -232,16 +255,25 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                         text = stringResource(R.string.card_number),
                         textAlign = TextAlign.Start,
-                        color = DarkBlue200
+                        color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_card_number), fontSize = 12.sp) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.please_enter_card_number),
+                            fontSize = 14.sp
+                        )
+                    },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.cardNumber,
-                    onValueChange = viewModel::onCardNumberChanged,
+                    onValueChange = {
+                        if (it.length <= 16) {
+                            viewModel.onCardNumberChanged(it)
+                        }
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
@@ -252,7 +284,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
                     keyboardActions = KeyboardActions(onNext = { ibanFocusRequester.requestFocus() }),
                 )
                 Row(
@@ -264,16 +299,25 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                         text = stringResource(R.string.iban),
                         textAlign = TextAlign.Start,
-                        color = DarkBlue200
+                        color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_your_iban_number), fontSize = 12.sp) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.please_enter_your_iban_number),
+                            fontSize = 14.sp
+                        )
+                    },
 
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.iban,
-                    onValueChange = viewModel::onIbanChanged,
+                    onValueChange = { newIban ->
+                        if (newIban.length <= 26) {
+                            viewModel.onIbanChanged(newIban)
+                        }
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
@@ -284,7 +328,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
                     keyboardActions = KeyboardActions(onNext = { accountFocusRequester.requestFocus() }),
                 )
 
@@ -297,15 +344,24 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                         text = stringResource(R.string.account),
                         textAlign = TextAlign.Start,
-                        color = DarkBlue200
+                        color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(
-                    placeholder = { Text(text = stringResource(R.string.please_enter_your_account_number), fontSize = 12.sp) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.please_enter_your_account_number),
+                            fontSize = 14.sp
+                        )
+                    },
                     isError = isErrorDisplayed,
                     shape = RoundedCornerShape(16.dp),
                     value = viewModel.accountNumber,
-                    onValueChange = viewModel::onAccountNumberChanged,
+                    onValueChange = {
+                        if (it.length <= 25) {
+                            viewModel.onAccountNumberChanged(it)
+                        }
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
@@ -316,7 +372,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
                     keyboardActions = KeyboardActions(onNext = { dateMonthFocusRequester.requestFocus() }),
                 )
 
@@ -330,18 +389,27 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                 text = stringResource(R.string.date),
                                 textAlign = TextAlign.Start,
-                                color = DarkBlue200
+                                color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                             )
                         }
 
                         Row {
                             OutlinedTextField(
-                                placeholder = { Text(text = stringResource(R.string.month), fontSize = 12.sp) },
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(R.string.month),
+                                        fontSize = 14.sp
+                                    )
+                                },
 
                                 isError = isErrorDisplayed,
                                 shape = RoundedCornerShape(16.dp),
                                 value = viewModel.dateMonth,
-                                onValueChange = viewModel::onDateMonthChanged,
+                                onValueChange = {
+                                    if (it.length <= 2) {
+                                        viewModel.onDateMonthChanged(it)
+                                    }
+                                },
                                 modifier = Modifier
                                     .padding(start = 16.dp, end = 8.dp)
                                     .width(84.dp)
@@ -352,15 +420,27 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 singleLine = true,
                                 maxLines = 1,
                                 interactionSource = remember { MutableInteractionSource() },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Next
+                                ),
                                 keyboardActions = KeyboardActions(onNext = { dateYearFocusRequester.requestFocus() }),
                             )
                             OutlinedTextField(
-                                placeholder = { Text(text = stringResource(R.string.year), fontSize = 12.sp) },
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(R.string.year),
+                                        fontSize = 14.sp
+                                    )
+                                },
                                 isError = isErrorDisplayed,
                                 shape = RoundedCornerShape(16.dp),
                                 value = viewModel.dateYear,
-                                onValueChange = viewModel::onDateYearChanged,
+                                onValueChange = {
+                                    if (it.length <= 2) {
+                                        viewModel.onDateYearChanged(it)
+                                    }
+                                },
                                 modifier = Modifier
                                     .width(84.dp)
                                     .focusRequester(dateYearFocusRequester),
@@ -370,7 +450,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 singleLine = true,
                                 maxLines = 1,
                                 interactionSource = remember { MutableInteractionSource() },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Next
+                                ),
                                 keyboardActions = KeyboardActions(onNext = { cvvFocusRequester.requestFocus() }),
                             )
                         }
@@ -387,16 +470,20 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                                 modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                 text = stringResource(R.string.cvv2),
                                 textAlign = TextAlign.Start,
-                                color = DarkBlue200
+                                color = DarkBlue200, fontSize = OutlinedTextFieldTitleTextSize
                             )
                         }
 
                         OutlinedTextField(
-                            placeholder = { Text(text = "cvv2", fontSize = 12.sp) },
+                            placeholder = { Text(text = "cvv2", fontSize = 14.sp) },
                             isError = isErrorDisplayed,
                             shape = RoundedCornerShape(16.dp),
                             value = viewModel.cvv2,
-                            onValueChange = viewModel::onCvv2Changed,
+                            onValueChange = {
+                                if (it.length <= 5) {
+                                    viewModel.onCvv2Changed(it)
+                                }
+                            },
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
                                 .width(84.dp)
@@ -407,7 +494,10 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             singleLine = true,
                             maxLines = 1,
                             interactionSource = remember { MutableInteractionSource() },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
+                            ),
                             keyboardActions = KeyboardActions(onDone = {
                                 viewModel.addCard(
                                     creditCard
@@ -446,7 +536,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             Text(
                                 stringResource(R.string.confirm),
                                 textAlign = TextAlign.Center,
-                                fontSize = 24.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                         }
 
@@ -454,7 +544,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             Text(
                                 stringResource(R.string.confirm),
                                 textAlign = TextAlign.Center,
-                                fontSize = 24.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
 
                             LaunchedEffect(isErrorDisplayed) {
@@ -483,7 +573,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                             Text(
                                 stringResource(R.string.confirm),
                                 textAlign = TextAlign.Center,
-                                fontSize = 22.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                         }
                     }
@@ -512,7 +602,7 @@ fun AddCardScreen(viewModel: AddCardViewModel = hiltViewModel(), navigateUp: () 
                         text = stringResource(id = R.string.cancel),
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
-                        fontSize = 22.sp
+                        fontSize = ButtonTextSize
                     )
 
                 }

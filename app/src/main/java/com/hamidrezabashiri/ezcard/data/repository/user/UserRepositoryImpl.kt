@@ -22,7 +22,6 @@ class UserRepositoryImpl @Inject constructor(private val userDao: UserDao) : Use
 
             true
         } catch (e: Exception) {
-            // Log the error or handle it more explicitly
             false
         }
     }
@@ -30,14 +29,12 @@ class UserRepositoryImpl @Inject constructor(private val userDao: UserDao) : Use
     override suspend fun loginUser(user: User): Boolean {
         return try {
             val adminUser = userDao.getAdminUser()
-//            val hashedProvidedPassword = BCrypt.hashpw(user.password, adminUser.salt)
-//            val isPasswordCorrect = hashedProvidedPassword == adminUser.password
+
             val isPasswordCorrect = BCrypt.checkpw(user.password, adminUser.password)
 
 
             isPasswordCorrect
         } catch (e: Exception) {
-            // Log the error or handle it more explicitly
             false
         }
     }

@@ -33,11 +33,13 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.BodyTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.SubtitleTextSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutUsScreen(upPress: () -> Unit) {
-    val context = LocalContext.current
 
     Scaffold(topBar = {
         Box(
@@ -51,8 +53,8 @@ fun AboutUsScreen(upPress: () -> Unit) {
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
                 text = stringResource(com.hamidrezabashiri.ezcard.R.string.about_us),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = HeadLineTextSize,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -95,8 +97,8 @@ fun AboutUsScreen(upPress: () -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 32.dp, start = 16.dp, end = 16.dp),
                 text = stringResource(R.string.about_us_thanks),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = SubtitleTextSize,
+                fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
             Text(
@@ -104,7 +106,7 @@ fun AboutUsScreen(upPress: () -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 text = stringResource(R.string.about_us_message),
-                fontSize = 18.sp,
+                fontSize = BodyTextSize,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.primary
@@ -114,7 +116,7 @@ fun AboutUsScreen(upPress: () -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 48.dp, start = 16.dp),
                 text = stringResource(R.string.contacts_way),
-                fontSize = 20.sp,
+                fontSize = HeadLineTextSize,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.primary

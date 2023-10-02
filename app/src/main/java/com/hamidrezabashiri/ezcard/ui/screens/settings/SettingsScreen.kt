@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.model.ThemeMode
 import com.hamidrezabashiri.ezcard.ui.common.EzCardThemeSwitch
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,8 +93,8 @@ fun SettingsScreen(
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
                 text = stringResource(R.string.settings),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = HeadLineTextSize,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.primary
             )
             Icon(

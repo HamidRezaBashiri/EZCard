@@ -105,17 +105,11 @@ fun BottomNavBar(
                         )
                     },
                     text = {
-//                        Text(
-//                            text = stringResource(id = it.titleResId),
-//                            color = tint,
-//                            style = MaterialTheme.typography.bodyMedium,
-//                            maxLines = 1
-//                        )
+
                     },
                     selected = selected,
                     onSelected = { onNavItemClicked.invoke(it.route) },
                     animSpec = springSpec,
-//                    modifier = BottomNavigationItemPadding.clip(shape = BottomNavIndicatorShape)
 
                 )
 

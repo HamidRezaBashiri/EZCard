@@ -37,11 +37,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 
 @Composable
-fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> Unit, isDarkTheme:Boolean) {
+fun WelcomeScreen(
+    viewModel: WelcomeViewModel = hiltViewModel(),
+    onLogin: () -> Unit,
+    isDarkTheme: Boolean
+) {
 //    val isDarkTheme = isSystemInDarkTheme()
 
     val backgroundVector =
@@ -141,7 +146,11 @@ fun WelcomeScreen(viewModel: WelcomeViewModel = hiltViewModel(), onLogin: () -> 
                 onClick = {
                     onLogin.invoke()
                 }) {
-                Text(text = stringResource(R.string.login))
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = R.string.login),
+                    fontSize = ButtonTextSize, color = Color.White
+                )
             }
 
 

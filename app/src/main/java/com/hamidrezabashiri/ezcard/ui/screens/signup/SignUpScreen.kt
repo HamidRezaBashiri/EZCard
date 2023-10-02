@@ -58,8 +58,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
+import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import com.hamidrezabashiri.ezcard.utils.ResponseState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +106,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
             }
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .weight(2f),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -114,13 +116,13 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     textAlign = TextAlign.Center,
                     text = stringResource(R.string.hello_friend),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp, color = MaterialTheme.colorScheme.primary
+                    fontSize = 26.sp, color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(2.dp),
                     text = stringResource(R.string.welcome),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 26.sp
@@ -129,10 +131,11 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp),
                     text = stringResource(R.string.create_your_password),
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 26.sp
+                    fontSize = HeadLineTextSize, fontWeight = FontWeight.Medium
                 )
 
 
@@ -144,7 +147,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
-                        text = stringResource(R.string.password), textAlign = TextAlign.Start
+                        text = stringResource(R.string.password),
+                        textAlign = TextAlign.Start,
+                        fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -163,7 +168,10 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     singleLine = true,
                     maxLines = 1,
                     interactionSource = remember { MutableInteractionSource() },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
                     keyboardActions = KeyboardActions(onNext = { passwordConfirmationFocusRequester.requestFocus() }),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
@@ -181,7 +189,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 4.dp),
                         text = stringResource(R.string.password_confirmation),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start, fontSize = OutlinedTextFieldTitleTextSize
+
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.passwordConfirmation.isEmpty(),
@@ -246,14 +255,15 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
-                            )                        }
+                                fontSize = ButtonTextSize, color = Color.White
+                            )
+                        }
 
                         is ResponseState.Error -> {
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                             LaunchedEffect(isToastDisplayed) {
                                 isToastDisplayed = true
@@ -280,11 +290,11 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), onSignUpSuccess: 
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
-                            )                        }
+                                fontSize = ButtonTextSize, color = Color.White
+                            )
+                        }
                     }
 
-//                Text(text = stringResource(R.string.login))
                 }
 
 

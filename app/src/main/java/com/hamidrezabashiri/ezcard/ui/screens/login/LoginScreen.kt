@@ -40,8 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
+import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import com.hamidrezabashiri.ezcard.utils.ResponseState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +124,6 @@ fun LoginScreen(
             }
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .weight(2f),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -157,7 +158,7 @@ fun LoginScreen(
                     Text(
                         modifier = Modifier.padding(start = 24.dp, bottom = 4.dp),
                         text = stringResource(R.string.enter_password_title),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start, fontSize = OutlinedTextFieldTitleTextSize
                     )
                 }
                 OutlinedTextField(isError = isErrorDisplayed && viewModel.password.isEmpty(),
@@ -222,7 +223,7 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                         }
 
@@ -230,7 +231,7 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                             LaunchedEffect(isToastDisplayed) {
                                 isToastDisplayed = true
@@ -257,12 +258,11 @@ fun LoginScreen(
                             Text(
                                 textAlign = TextAlign.Center,
                                 text = stringResource(id = R.string.login),
-                                fontSize = 22.sp
+                                fontSize = ButtonTextSize, color = Color.White
                             )
                         }
                     }
 
-//                Text(text = stringResource(R.string.login))
                 }
 
 

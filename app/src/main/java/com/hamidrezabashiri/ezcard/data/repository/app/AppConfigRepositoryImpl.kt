@@ -22,7 +22,6 @@ class AppConfigRepositoryImpl @Inject constructor(private val dataStore: DataSto
     override fun getAppTheme(): Flow<ThemeMode> {
         return dataStore.data.map { preferences ->
             val themeModeString = preferences[APP_THEME]
-            // Use a safe call operator (?.) to handle null or unknown values
             val themeMode = ThemeMode.valueOf(themeModeString ?: ThemeMode.SYSTEM.toString())
             themeMode
         }

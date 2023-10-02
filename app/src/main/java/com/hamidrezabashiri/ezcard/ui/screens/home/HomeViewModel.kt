@@ -95,8 +95,4 @@ class HomeViewModel @Inject constructor(
 
     }
 
-//    fun onCopyToClipBoardClicked(string: String){
-//
-//    }
-
 }
