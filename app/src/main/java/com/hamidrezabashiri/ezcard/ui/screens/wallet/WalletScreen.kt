@@ -40,7 +40,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import com.hamidrezabashiri.ezcard.R
@@ -53,14 +52,13 @@ import com.hamidrezabashiri.ezcard.ui.theme.BodyTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
 import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
-import com.hamidrezabashiri.ezcard.ui.theme.SubtitleTextSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WalletScreen(
     viewModel: WalletViewModel = hiltViewModel(),
     navigateToAddScreen: () -> Unit,
-    navigateToDeleteScreen: (Int, NavBackStackEntry, String) -> Unit,
+    navigateWithParam: (Int, NavBackStackEntry, String) -> Unit,
     navBackStackEntry: NavBackStackEntry,
 ) {
     val cardList by viewModel.cardListFlow.collectAsState(emptyList())
@@ -168,7 +166,11 @@ fun WalletScreen(
                         text = stringResource(R.string.to_add_new_card_press_plus_button),
                         color = Grey200, fontSize = BodyTextSize
                     )
-                    Text(text = stringResource(R.string.at_the_bottom_of_screen), color = Grey200, fontSize = BodyTextSize)
+                    Text(
+                        text = stringResource(R.string.at_the_bottom_of_screen),
+                        color = Grey200,
+                        fontSize = BodyTextSize
+                    )
                 }
             }
 
@@ -188,9 +190,17 @@ fun WalletScreen(
                         card = card,
                         onDeleteClicked = {
                             card.id?.let { it1 ->
-                                navigateToDeleteScreen(
+                                navigateWithParam(
                                     it1, navBackStackEntry,
                                     MainDestinations.CONFIRM_DELETE_ROUTE
+                                )
+                            }
+                        }, onEditClicked = {
+                            card.id?.let { cardId ->
+                                navigateWithParam(
+                                    cardId,
+                                    navBackStackEntry,
+                                    MainDestinations.EDIT_CARD_ROUTE
                                 )
                             }
                         },

@@ -74,6 +74,7 @@ import com.hamidrezabashiri.ezcard.ui.navigation.MainDestinations
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
 import com.hamidrezabashiri.ezcard.ui.theme.BodyTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
+import com.hamidrezabashiri.ezcard.ui.theme.Grey100
 import com.hamidrezabashiri.ezcard.ui.theme.Grey200
 import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
@@ -204,7 +205,11 @@ fun HomeScreen(
                         text = stringResource(R.string.to_add_new_card_press_plus_button),
                         color = Grey200, fontSize = BodyTextSize
                     )
-                    Text(text = stringResource(R.string.at_the_bottom_of_screen), color = Grey200, fontSize = BodyTextSize)
+                    Text(
+                        text = stringResource(R.string.at_the_bottom_of_screen),
+                        color = Grey200,
+                        fontSize = BodyTextSize
+                    )
                 }
             } else {
                 // Render card pager UI
@@ -232,6 +237,15 @@ fun HomeScreen(
                                         cardId,
                                         navBackStackEntry,
                                         MainDestinations.CONFIRM_DELETE_ROUTE
+                                    )
+                                }
+                            },
+                            onEditClicked = {
+                                cardList[it].id?.let { cardId ->
+                                    navigateWithParam(
+                                        cardId,
+                                        navBackStackEntry,
+                                        MainDestinations.EDIT_CARD_ROUTE
                                     )
                                 }
                             },
@@ -329,7 +343,8 @@ fun HomeScreen(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                         text = stringResource(R.string.date),
                                         textAlign = TextAlign.Start,
-                                        color = DarkBlue150, fontSize = OutlinedTextFieldTitleTextSize
+                                        color = DarkBlue150,
+                                        fontSize = OutlinedTextFieldTitleTextSize
                                     )
                                 }
 
@@ -340,7 +355,8 @@ fun HomeScreen(
                                         .padding(start = 16.dp, end = 8.dp)
                                         .width(164.dp),
                                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                                        unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                                        unfocusedBorderColor = Grey200,
+                                        focusedBorderColor = Grey200
                                     ),
                                     singleLine = true,
                                     maxLines = 1,
@@ -353,7 +369,7 @@ fun HomeScreen(
                                             Icon(
                                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                                 contentDescription = "copy button",
-                                                tint = Color.Unspecified
+                                                tint = Grey100
                                             )
                                         }
                                     })
@@ -369,7 +385,8 @@ fun HomeScreen(
                                         modifier = Modifier.padding(start = 26.dp, bottom = 4.dp),
                                         text = stringResource(R.string.cvv2),
                                         textAlign = TextAlign.Start,
-                                        color = DarkBlue150, fontSize = OutlinedTextFieldTitleTextSize
+                                        color = DarkBlue150,
+                                        fontSize = OutlinedTextFieldTitleTextSize
                                     )
                                 }
 
@@ -385,7 +402,8 @@ fun HomeScreen(
                                         .padding(horizontal = 16.dp)
                                         .width(120.dp),
                                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                                        unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                                        unfocusedBorderColor = Grey200,
+                                        focusedBorderColor = Grey200
                                     ),
                                     singleLine = true,
                                     maxLines = 1,
@@ -398,7 +416,7 @@ fun HomeScreen(
                                             Icon(
                                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                                 contentDescription = "copy button",
-                                                tint = Color.Unspecified
+                                                tint = Grey100
                                             )
                                         }
                                     })
@@ -443,7 +461,8 @@ fun RowWithCopyButton(
             .padding(horizontal = 16.dp)
             .fillMaxWidth(),
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = Grey200,
+            focusedBorderColor = Grey200
         ),
         singleLine = true,
         maxLines = 1,
@@ -453,7 +472,7 @@ fun RowWithCopyButton(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.copy),
                     contentDescription = "copy button",
-                    tint = Color.Unspecified
+                    tint = Grey100
                 )
             }
         })

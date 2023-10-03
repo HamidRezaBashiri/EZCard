@@ -9,6 +9,7 @@ import com.hamidrezabashiri.ezcard.ui.screens.aboutUs.AboutUsScreen
 import com.hamidrezabashiri.ezcard.ui.screens.addCard.AddCardScreen
 import com.hamidrezabashiri.ezcard.ui.screens.changePassword.ChangePasswordScreen
 import com.hamidrezabashiri.ezcard.ui.screens.confirmDelete.ConfirmDeleteScreen
+import com.hamidrezabashiri.ezcard.ui.screens.editCard.EditCardScreen
 import com.hamidrezabashiri.ezcard.ui.screens.home.HomeScreen
 import com.hamidrezabashiri.ezcard.ui.screens.login.LoginScreen
 import com.hamidrezabashiri.ezcard.ui.screens.settings.SettingsScreen
@@ -53,7 +54,7 @@ fun NavGraphBuilder.ezCardNavGraph(
     composable(route = MainDestinations.SETTINGS_ROUTE) {
 
         SettingsScreen(
-            upPress=upPress,
+            upPress = upPress,
             onThemeChange = onThemeChange,
             navigateToChangePassword = {
                 onNavigateToSubScreen(
@@ -66,7 +67,15 @@ fun NavGraphBuilder.ezCardNavGraph(
     }
     composable(route = MainDestinations.ADD_CARD_ROUTE) {
         AddCardScreen(navigateUp = { upPress() })
+    }
 
+    composable(
+        route = "${MainDestinations.EDIT_CARD_ROUTE}/{param}",
+        arguments = listOf(navArgument("param") { type = NavType.IntType })
+
+    ) {
+        val param = it.arguments?.getInt("param")
+        EditCardScreen(navigateUp = { upPress() }, cardId = param)
     }
     composable(route = MainDestinations.HOME_ROUTE) {
         HomeScreen(
@@ -103,7 +112,7 @@ fun NavGraphBuilder.ezCardNavGraph(
                 onNavigateToSubScreen(
                     MainDestinations.ADD_CARD_ROUTE, it
                 )
-            }, navigateToDeleteScreen = onNavigateWithParams, navBackStackEntry = it
+            }, navigateWithParam = onNavigateWithParams, navBackStackEntry = it
 
         )
     }

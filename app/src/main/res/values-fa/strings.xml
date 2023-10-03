@@ -49,5 +49,6 @@
     <string name="expire_date">تاریخ انقضا</string>
     <string name="share_card_message">اطلاعاتی که می خواهید به اشتراک بگذارید:</string>
     <string name="card_holder_name">نام صاحب کارت</string>
+    <string name="edit_card">ویرایش کارت</string>
 
 </resources>

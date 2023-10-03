@@ -22,6 +22,7 @@ object MainDestinations {
     const val SIGNUP_ROUTE = "signup"
     const val SHARE_CARD_ROUTE = "shareCard"
     const val ADD_CARD_ROUTE = "addCard"
+    const val EDIT_CARD_ROUTE = "editCard"
     const val WELCOME_ROUTE = "welcome_screen"
     const val CONFIRM_DELETE_ROUTE="confirm_delete"
     const val CHANGE_PASSWORD_ROUTE="change_password"

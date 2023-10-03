@@ -92,7 +92,7 @@ fun BottomNavBar(
                     if (selected) {
                         Color.White
                     } else {
-                        Color.Gray
+                        Color.White.copy(alpha = 0.25f)
                     }, label = ""
                 )
 
@@ -111,7 +111,7 @@ fun BottomNavBar(
                     onSelected = { onNavItemClicked.invoke(it.route) },
                     animSpec = springSpec,
 
-                )
+                    )
 
 
             }

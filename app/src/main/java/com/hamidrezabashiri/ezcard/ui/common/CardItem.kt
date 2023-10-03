@@ -14,11 +14,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -34,16 +42,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
+import com.hamidrezabashiri.ezcard.ui.theme.Turquoise200
 import com.hamidrezabashiri.ezcard.ui.theme.TurquoiseDark
 import com.hamidrezabashiri.ezcard.ui.theme.pink200
 
 @Composable
 fun CardItem(
-    card: CreditCard,
-    onDeleteClicked: () -> Unit,
-    onCopyToClipBoard: (String) -> Unit,
     modifier: Modifier = Modifier,
-    isEditable:Boolean
+    card: CreditCard,
+    onDeleteClicked: () -> Unit = {},
+    onEditClicked: () -> Unit = {},
+    onCopyToClipBoard: (String) -> Unit,
+    isEditable: Boolean
 ) {
     val context = LocalContext.current
 
@@ -94,6 +104,9 @@ fun CardItem(
         "tosee_taavon" to R.drawable.tosee_taavon
     )
 
+    var isDropdownMenuExpanded by remember {
+        mutableStateOf(false)
+    }
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
 
@@ -103,7 +116,7 @@ fun CardItem(
                 .padding(vertical = 8.dp, horizontal = 8.dp)
                 .background(
                     shape = RoundedCornerShape(32.dp),
-                    brush = Brush.linearGradient(0.0f to pink200, 1.0f to TurquoiseDark)
+                    brush = Brush.linearGradient(0.0f to Turquoise200, 1.0f to pink200)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
@@ -118,19 +131,41 @@ fun CardItem(
                         .height(36.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    if (isEditable){
-                        IconButton(onClick = { onDeleteClicked.invoke() }) {
+                    if (isEditable) {
+                        IconButton(onClick = { isDropdownMenuExpanded = !isDropdownMenuExpanded }) {
                             Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.trash),
+                                imageVector = Icons.Default.MoreVert,
                                 contentDescription = "delete btn",
-                                tint = Color.Unspecified,
+                                tint = Color.White,
                                 modifier = Modifier
-                                    .size(32.dp)
                                     .align(Alignment.CenterVertically)
 
                             )
                         }
 
+                    }
+                    if (isDropdownMenuExpanded) {
+                        DropdownMenu(
+                            expanded = isDropdownMenuExpanded,
+                            onDismissRequest = { isDropdownMenuExpanded = false },
+                            modifier = Modifier
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(text = "حذف") },
+                                onClick = {
+                                    onDeleteClicked.invoke()
+                                    isDropdownMenuExpanded = false
+                                }
+                            )
+
+                            DropdownMenuItem(
+                                text = { Text(text = "ویرایش") },
+                                onClick = {
+                                    onEditClicked.invoke()
+                                    isDropdownMenuExpanded = false
+                                }
+                            )
+                        }
                     }
 
                     Spacer(
@@ -168,7 +203,7 @@ fun CardItem(
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.copy),
                             contentDescription = "copy button",
-                            tint = Color.Unspecified
+                            tint = Color.White
                         )
                     }
 
@@ -186,7 +221,7 @@ fun CardItem(
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.copy),
                             contentDescription = "copy button",
-                            tint = Color.Unspecified
+                            tint = Color.White
                         )
                     }
 
@@ -221,7 +256,7 @@ fun CardItem(
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                 contentDescription = "copy button",
-                                tint = Color.Unspecified
+                                tint = Color.White
                             )
                         }
                     }
@@ -245,7 +280,7 @@ fun CardItem(
 //                            Icon(
 //                                imageVector = ImageVector.vectorResource(R.drawable.copy),
 //                                contentDescription = "copy button",
-//                                tint = Color.Unspecified
+//                                tint = Color.White
 //                            )
 //                        }
 //                    }
@@ -257,7 +292,11 @@ fun CardItem(
                     Row(verticalAlignment = Alignment.Bottom) {
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = stringResource(R.string.expire_date), color = Color.White, fontSize = 12.sp)
+                            Text(
+                                text = stringResource(R.string.expire_date),
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
                             Text(
                                 text = card.expirationDate,
                                 color = Color.White,
@@ -271,7 +310,7 @@ fun CardItem(
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.copy),
                                 contentDescription = "copy button",
-                                tint = Color.Unspecified
+                                tint = Color.White
                             )
                         }
 
