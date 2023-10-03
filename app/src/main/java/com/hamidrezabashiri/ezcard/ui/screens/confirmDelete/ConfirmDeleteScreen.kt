@@ -52,6 +52,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonCornerRoundedSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonHeightSize
 import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.Red500
@@ -190,10 +192,10 @@ fun ConfirmDeleteScreen(
                             colors = listOf(MaterialTheme.colorScheme.error, Red500),
                             start = Offset(0f, 0f),
                             end = Offset.Infinite,
-                        ), shape = RoundedCornerShape(16.dp)
+                        ), shape = RoundedCornerShape(ButtonCornerRoundedSize)
                     )
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(ButtonHeightSize),
                 onClick = {
                     viewModel.onDeleteCard(card.value)
                     upPress.invoke()
@@ -206,7 +208,7 @@ fun ConfirmDeleteScreen(
                 )
             }
             Button(
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(ButtonCornerRoundedSize),
                 border = BorderStroke(
                     1.dp, MaterialTheme.colorScheme.primary
                 ),
@@ -216,7 +218,7 @@ fun ConfirmDeleteScreen(
                 modifier = Modifier
                     .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(ButtonHeightSize),
                 onClick = {
                     upPress.invoke()
                 }) {

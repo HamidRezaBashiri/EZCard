@@ -50,5 +50,7 @@
     <string name="share_card_message">اطلاعاتی که می خواهید به اشتراک بگذارید:</string>
     <string name="card_holder_name">نام صاحب کارت</string>
     <string name="edit_card">ویرایش کارت</string>
+    <string name="delete">حذف</string>
+    <string name="edit">ویرایش</string>
 
 </resources>

@@ -50,6 +50,8 @@
     <string name="expire_date">Expire Date</string>
     <string name="share_card_message">Information you want to share:</string>
     <string name="card_holder_name">Cardholder\'s Name</string>
-    <string name="edit_card">ویرایش کارت</string>
+    <string name="edit_card">Edit Card</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
 </resources>

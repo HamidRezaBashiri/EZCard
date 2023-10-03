@@ -17,11 +17,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -30,11 +36,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,13 +50,20 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.BodyTextSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonCornerRoundedSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonHeightSize
 import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
+import kotlinx.coroutines.delay
 
 @Composable
 fun ShareCardScreen(
@@ -56,7 +71,9 @@ fun ShareCardScreen(
     cardId: Int?,
     upPress: () -> Unit,
 ) {
-
+    var isSuccessAnimationPlaying by remember {
+        mutableStateOf(false)
+    }
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context = LocalContext.current // If you're in a Composable
 
@@ -70,8 +87,8 @@ fun ShareCardScreen(
         context.getString(R.string.card_number),
         context.getString(R.string.iban),
         context.getString(R.string.account),
-        context.getString(R.string.expire_date),
-        context.getString(R.string.cvv2),
+//        context.getString(R.string.expire_date),
+//        context.getString(R.string.cvv2),
     )
 
 
@@ -124,7 +141,7 @@ fun ShareCardScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding( top = 16.dp)
+                .padding(top = 16.dp)
         ) {
 
             CardItem(
@@ -137,7 +154,24 @@ fun ShareCardScreen(
                             string
                         )
                     )
-                }, isEditable = false)
+                }, isEditable = false
+            )
+
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.icon_card_send),
+                contentDescription = "share icon",
+                modifier = Modifier.padding(top = 16.dp),
+                tint = Color.Unspecified
+            )
+
+            Text(
+                text = "اشتراک گذاری",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                textAlign = TextAlign.Center,
+                fontSize = HeadLineTextSize, color = MaterialTheme.colorScheme.primary
+            )
 
             Text(
                 text = stringResource(R.string.share_card_message),
@@ -145,24 +179,28 @@ fun ShareCardScreen(
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Start,
-                fontSize = HeadLineTextSize,
-                fontWeight = FontWeight.Medium
+                fontSize = BodyTextSize,
             )
 
             checkboxTexts.forEachIndexed { index, text ->
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
+                        colors = CheckboxDefaults.colors(
+                            uncheckedColor = DarkBlue150
+                        ),
                         checked = checkboxStates[index],
                         onCheckedChange = { isChecked ->
                             checkboxStates[index] = isChecked
                         },
                         modifier = Modifier.padding(0.dp)
                     )
-                    Text(text)
+                    Text(text, color = DarkBlue150)
 
                 }
             }
@@ -180,23 +218,23 @@ fun ShareCardScreen(
                             colors = listOf(DarkBlue150, DarkBlue250),
                             start = Offset(0f, 0f),
                             end = Offset.Infinite,
-                        ), shape = RoundedCornerShape(16.dp)
+                        ), shape = RoundedCornerShape(ButtonCornerRoundedSize)
                     )
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(ButtonHeightSize),
                 onClick = {
+                    isSuccessAnimationPlaying = true
                     viewModel.generateAndShareMessage(context)
                 }) {
 
                 Text(
                     stringResource(R.string.send),
                     textAlign = TextAlign.Center,
-                    fontSize = ButtonTextSize
-                    , color = Color.White
+                    fontSize = ButtonTextSize, color = Color.White
                 )
             }
             Button(
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(ButtonCornerRoundedSize),
                 border = BorderStroke(
                     1.dp, Brush.linearGradient(
                         colors = listOf(DarkBlue150, DarkBlue250),
@@ -210,7 +248,7 @@ fun ShareCardScreen(
                 modifier = Modifier
                     .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(ButtonHeightSize),
                 onClick = {
                     upPress.invoke()
                 }) {
@@ -226,6 +264,32 @@ fun ShareCardScreen(
 
 
         }
+
+        if (isSuccessAnimationPlaying) {
+            Box(Modifier.fillMaxSize()) {
+
+
+                val composition by rememberLottieComposition(
+
+                    LottieCompositionSpec
+                        // here `code` is the file name of lottie file
+                        // use it accordingly
+                        .RawRes(R.raw.animation_2)
+                )
+
+                // to control the animation
+                LottieAnimation(
+                    modifier = Modifier.fillMaxSize(),
+                    composition = composition,
+                    iterations = 1,
+                )
+                LaunchedEffect(key1 = Unit, block = {
+                    delay(2500)
+                    isSuccessAnimationPlaying = false
+                })
+            }
+        }
     }
+
 
 }

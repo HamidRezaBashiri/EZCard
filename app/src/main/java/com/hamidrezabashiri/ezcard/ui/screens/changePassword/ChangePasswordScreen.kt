@@ -60,6 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonCornerRoundedSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonHeightSize
 import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
@@ -292,10 +294,10 @@ fun ChangePasswordScreen(
                             colors = listOf(DarkBlue150, DarkBlue250),
                             start = Offset(0f, 0f),
                             end = Offset.Infinite,
-                        ), shape = RoundedCornerShape(16.dp)
+                        ), shape = RoundedCornerShape(ButtonCornerRoundedSize)
                     )
                     .fillMaxWidth()
-                    .height(60.dp), onClick = {
+                    .height(ButtonHeightSize), onClick = {
                     isErrorDisplayed = true
                     viewModel.onSignUpButtonClicked()
                 }) {
@@ -349,7 +351,7 @@ fun ChangePasswordScreen(
                     }
 
                 }
-                Button(shape = RoundedCornerShape(16.dp),
+                Button(shape = RoundedCornerShape(ButtonCornerRoundedSize),
                     border = BorderStroke(
                         1.dp, MaterialTheme.colorScheme.primary
                     ),
@@ -359,7 +361,7 @@ fun ChangePasswordScreen(
                     modifier = Modifier
                         .padding(bottom = 32.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth()
-                        .height(60.dp),
+                        .height(ButtonHeightSize),
                     onClick = {
                         upPress.invoke()
                     }) {

@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonCornerRoundedSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonHeightSize
 import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
@@ -139,10 +141,10 @@ fun WelcomeScreen(
                             colors = listOf(DarkBlue150, DarkBlue250),
                             start = Offset(0f, 0f),
                             end = Offset.Infinite,
-                        ), shape = RoundedCornerShape(16.dp)
+                        ), shape = RoundedCornerShape(ButtonCornerRoundedSize)
                     )
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(ButtonHeightSize),
                 onClick = {
                     onLogin.invoke()
                 }) {

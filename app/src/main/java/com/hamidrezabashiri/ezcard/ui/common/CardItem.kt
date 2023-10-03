@@ -151,7 +151,7 @@ fun CardItem(
                             modifier = Modifier
                         ) {
                             DropdownMenuItem(
-                                text = { Text(text = "حذف") },
+                                text = { Text(text = stringResource(R.string.delete)) },
                                 onClick = {
                                     onDeleteClicked.invoke()
                                     isDropdownMenuExpanded = false
@@ -159,7 +159,7 @@ fun CardItem(
                             )
 
                             DropdownMenuItem(
-                                text = { Text(text = "ویرایش") },
+                                text = { Text(text = stringResource(R.string.edit)) },
                                 onClick = {
                                     onEditClicked.invoke()
                                     isDropdownMenuExpanded = false

@@ -61,11 +61,16 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hamidrezabashiri.ezcard.R
 import com.hamidrezabashiri.ezcard.data.dataModel.CreditCard
 import com.hamidrezabashiri.ezcard.ui.common.CardItem
 import com.hamidrezabashiri.ezcard.ui.common.drawVerticalScrollbar
 import com.hamidrezabashiri.ezcard.ui.theme.Blue200Transparent
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonCornerRoundedSize
+import com.hamidrezabashiri.ezcard.ui.theme.ButtonHeightSize
 import com.hamidrezabashiri.ezcard.ui.theme.ButtonTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue150
 import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue200
@@ -73,6 +78,7 @@ import com.hamidrezabashiri.ezcard.ui.theme.DarkBlue250
 import com.hamidrezabashiri.ezcard.ui.theme.HeadLineTextSize
 import com.hamidrezabashiri.ezcard.ui.theme.OutlinedTextFieldTitleTextSize
 import com.hamidrezabashiri.ezcard.utils.ResponseState
+import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,8 +136,11 @@ fun EditCardScreen(
     val cvvFocusRequester = remember { FocusRequester() }
 
     val scrollState = rememberScrollState()
-    val interactionSource = remember { MutableInteractionSource() }
 
+
+    var isSuccessAnimationPlaying by remember {
+        mutableStateOf(false)
+    }
 
 
 
@@ -531,10 +540,10 @@ fun EditCardScreen(
                                 colors = listOf(DarkBlue150, DarkBlue250),
                                 start = Offset(0f, 0f),
                                 end = Offset.Infinite,
-                            ), shape = RoundedCornerShape(16.dp)
+                            ), shape = RoundedCornerShape(ButtonCornerRoundedSize)
                         )
                         .fillMaxWidth()
-                        .height(60.dp),
+                        .height(ButtonHeightSize),
                     onClick = {
                         viewModel.updateCard(creditCard)
                     }) {
@@ -542,8 +551,9 @@ fun EditCardScreen(
                     when (loginState) {
                         is ResponseState.Success -> {
                             LaunchedEffect(Unit) {
+                                isSuccessAnimationPlaying = true
+                                delay(1800)
                                 navigateUp.invoke()
-//                            TODO SHOW SUCCESS SCREEN AND NAVIGATE UP
                             }
                             Text(
                                 stringResource(R.string.confirm),
@@ -591,7 +601,7 @@ fun EditCardScreen(
                     }
                 }
                 Button(
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(ButtonCornerRoundedSize),
                     border = BorderStroke(
                         1.dp, Brush.linearGradient(
                             colors = listOf(DarkBlue150, DarkBlue250),
@@ -605,7 +615,7 @@ fun EditCardScreen(
                     modifier = Modifier
                         .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth()
-                        .height(60.dp),
+                        .height(ButtonHeightSize),
                     onClick = {
                         navigateUp.invoke()
                     }) {
@@ -621,6 +631,26 @@ fun EditCardScreen(
             }
 
 
+        }
+        if (isSuccessAnimationPlaying){
+            Box(Modifier.fillMaxSize()) {
+
+
+                val composition by rememberLottieComposition(
+
+                    LottieCompositionSpec
+                        // here `code` is the file name of lottie file
+                        // use it accordingly
+                        .RawRes(R.raw.animation_add_card)
+                )
+
+                // to control the animation
+                LottieAnimation(
+                    modifier = Modifier.fillMaxSize(),
+                    composition = composition,
+                    iterations = 1,
+                )
+            }
         }
     }
 }

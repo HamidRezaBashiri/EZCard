@@ -14,6 +14,9 @@ val MyButtonShape = RoundedCornerShape(
 )
 
 val ButtonTextSize = 16.sp
+val ButtonHeightSize = 48.dp
+val ButtonCornerRoundedSize = 16.dp
+
 val HeadLineTextSize = 24.sp
 val SubtitleTextSize = 20.sp
 val BodyTextSize = 16.sp
