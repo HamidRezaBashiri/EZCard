@@ -12,9 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:typeface">@font/iran_sansx_regular</item>
+<!--        <item name="android:typeface">@font/iran_sansx_regular</item>-->
 
-        <item name="android:fontFamily">@font/font_iransans</item>
+<!--        <item name="android:fontFamily">@font/font_iransans</item>-->
     </style>
     <style name="Theme.EzCard.NoActionBar">
         <item name="windowActionBar">false</item>
